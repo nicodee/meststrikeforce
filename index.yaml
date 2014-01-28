@@ -24,6 +24,26 @@ indexes:
   properties:
   - name: user
   - name: end_date
+  - name: start_date
+
+- kind: Education
+  properties:
+  - name: user
+  - name: end_date
+    direction: desc
+
+- kind: Education
+  properties:
+  - name: user
+  - name: start_date
+  - name: end_date
+
+- kind: Education
+  properties:
+  - name: user
+  - name: start_date
+    direction: desc
+  - name: end_date
     direction: desc
 
 - kind: KeySkill
@@ -43,6 +63,14 @@ indexes:
   - name: sender
   - name: sender_deleted
   - name: created
+    direction: desc
+
+- kind: Position
+  properties:
+  - name: user
+  - name: start_date
+    direction: desc
+  - name: end_date
     direction: desc
 
 - kind: Sector
