@@ -1,4 +1,4 @@
-from models import User, Message, Contribution, Program
+from models import User, Message, Contribution, Program, Company
 from time import gmtime, strftime
 import mandrill
 import exceptions
@@ -217,10 +217,11 @@ def notificationMail(user):
     to_name  = user.first_name + " " + user.last_name
     user_profile = ""
     if user.user_profile == "Mentor":
-        user_profile = "a Mentor"
+        user_profile = "a member of"
+        subject = "We've Received Your MEST Strike Force Application"          
     else:
-        user_profile = "an Entrepreneur"        
-    subject = "We've Received Your %s Application" %(user.user_profile)          
+        user_profile = "an Entrepreneur on"        
+        subject = "We've Received Your Entrepreneur Application"          
     html = mailContent.signup_template
     variables = [{ 'name': 'username', 'content': to_name},
                 {'name': 'userprofile', 'content': user_profile}]
@@ -241,12 +242,17 @@ def sendContributionMailAdmin(contribution, mentor):
     to_email    = "admin@meststrikeforce.appspotmail.com"
     to_name     = admin.first_name + " " + admin.last_name    
     mentor_name = mentor.first_name + " " + mentor.last_name
-    subject     = "%s has submitted hours for assisting %s" %(mentor_name, contribution.get("company","")) 
+    subject     = "%s has submitted hours for supporting %s" %(mentor_name, contribution.get("company","")) 
     html        = mailContent.newhour
+    twitter     = ""
+    if mentor.programs[0].twitter_handle != None:
+        twitter = "Give %s a high-five via Twitter! Twitter handle: http://twitter.com/%s  <br><br>" %(mentor_name,mentor.programs[0].twitter_handle)
+    
     variables   = [
                     {'name':'contributors_full_name', 'content': mentor_name},
                     {'name':'contributed_hours', 'content': contribution.get("hours","")},
                     {'name':'company_name', 'content': contribution.get("company","")},
+                    {'name':'twitter', 'content': twitter},
                     {'name':'contributors_first_name', 'content': mentor.first_name},
                     {'name':'description', 'content': contribution.get("description","")}
                 ]
@@ -254,24 +260,24 @@ def sendContributionMailAdmin(contribution, mentor):
     tags        = "New hour contributed"
     merge       = False
     ceo         = getContributionCEO(contribution)
-    try:
-        # first  =  sendOutboundMail(from_email, from_name, to_email, to_name, subject, html, tags, reply_to, variables, merge) 
+    try: 
         second =  sendOutboundMail(from_email, from_name, admin.email, to_name, subject, html, tags, reply_to, variables, merge)
         third  =  sendOutboundMail(from_email, from_name, ceo.get("to_email"), ceo.get("to_name"), subject, html, tags, reply_to, variables, merge)
-        fourth =  sendBadgeMail(from_email, from_name, contribution, mentor, admin, reply_to, merge, to_name)
+        fourth =  sendBadgeMail(from_email, from_name, contribution, mentor, admin, reply_to, merge, to_name, twitter)
         return True
     except:
         return False
 
 
 def getContributionCEO(contribution):
+    company = Company.all().filter("name =", contribution.get("company")).get()
     ceo = {}
-    ceo['to_email'] = "nnutsukpui@gmail.com"
-    ceo['to_name']  = "Nicodemus Nutsukpui"
+    ceo['to_email'] = company.ceo_email
+    ceo['to_name']  = company.ceo_name
     return ceo
 
 
-def sendBadgeMail(from_email, from_name, contribution, mentor, admin, reply_to, merge, to_name):
+def sendBadgeMail(from_email, from_name, contribution, mentor, admin, reply_to, merge, to_name, twitter):
     sendmail = False
     contributed_hours = contribution.get("new_total")
 
@@ -284,30 +290,52 @@ def sendBadgeMail(from_email, from_name, contribution, mentor, admin, reply_to, 
 
     to_name_mentor = mentor.first_name + " " + mentor.last_name
     subject = "%s just earned a new badge!" %(to_name_mentor)
+    mentor_subject ="You've earned a new badge!"
     tags = "New badge earned"
 
-    if contributed_hours >= 50 and program.guru == None:
+    if contributed_hours >= 250 and program.grand_master == None:
         sendmail = True
-        badge_category = "GURU"
+        badge_category = "GRAND MASTER"
+        badge_name = "Badge250"
+        program.scout_master = True
+        program.sensei  = True 
+        program.captain  = True    
+        program.general  = True     
+        program.grand_master  = True
+        program.put() 
+
+    elif contributed_hours >= 100 and program.general == None:
+        sendmail = True
+        badge_category = "GENERAL"
+        badge_name = "Badge100"
+        program.scout_master = True
+        program.sensei  = True 
+        program.captain  = True    
+        program.general  = True
+        program.put()
+
+    elif contributed_hours >= 50 and program.captain == None:
+        sendmail = True
+        badge_category = "CAPTAIN"
         badge_name = "Badge50"
-        program.guru = True
-        program.ninja = True
-        program.rock_star = True
+        program.scout_master = True
+        program.sensei  = True 
+        program.captain  = True
         program.put()
     
-    elif contributed_hours >= 25 and program.ninja == None:
+    elif contributed_hours >= 25 and program.sensei == None:
         sendmail = True
         badge_name = "Badge25"
-        badge_category = "NINJA"
-        program.ninja = True
-        program.rock_star = True
+        badge_category = "SENSEI"
+        program.scout_master = True
+        program.sensei  = True
         program.put()
     
-    elif contributed_hours >= 10 and program.rock_star == None:
+    elif contributed_hours >= 10 and program.scout_master == None:
         sendmail = True
         badge_name = "Badge10"
-        badge_category = "ROCK STAR"
-        program.rock_star = True
+        badge_category = "SCOUT MASTER"
+        program.scout_master = True
         program.put()
     
     to_email_mentor = mentor.email
@@ -315,6 +343,7 @@ def sendBadgeMail(from_email, from_name, contribution, mentor, admin, reply_to, 
     variables_mentor = [
                     {'name':'contributors_first_name', 'content': contributors_first_name},
                     {'name':'contributed_hours', 'content': contributed_hours},
+                    {'name': 'server_url', 'content': access.server_url},
                     {'name':'badge_name', 'content': badge_name},
                     {'name':'badge_category', 'content': badge_category}
                 ] 
@@ -326,11 +355,13 @@ def sendBadgeMail(from_email, from_name, contribution, mentor, admin, reply_to, 
                     {'name':'contributors_full_name', 'content': to_name_mentor},
                     {'name':'badge_category', 'content': badge_category},
                     {'name':'contributed_hours', 'content': contributed_hours},
+                    {'name': 'server_url', 'content': access.server_url},
+                    {'name':'twitter', 'content': twitter},
                     {'name':'contributors_first_name', 'content': contributors_first_name}
                 ]
     if  sendmail:
         try:
-            mentor_mail  =  sendOutboundMail(from_email, from_name, to_email_mentor, to_name_mentor, subject, html_mentor, tags, reply_to, variables_mentor, merge) 
+            mentor_mail  =  sendOutboundMail(from_email, from_name, to_email_mentor, to_name_mentor, mentor_subject, html_mentor, tags, reply_to, variables_mentor, merge) 
             admin_mail   =  sendOutboundMail(from_email, from_name, to_email_admin, to_name_admin, subject, html_admin, tags, reply_to, variables_admin, merge)        
             return True
         except:

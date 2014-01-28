@@ -210,14 +210,17 @@ class Entrepreneur(db.Model):
 
 class Program(db.Model):
     user               = db.ReferenceProperty(User, collection_name = 'programs')
-    program_type       = db.StringProperty(required=True, choices=set(['MEST Strike Force', 'MBA Consultant', 'Senior Advisor', 'Expert in Residence', 'Job Applicant']))
+    program_type       = db.StringProperty(required=True)
     preferred_email    = db.StringProperty()
     mini_bio           = db.TextProperty() 
     time_zone          = db.StringProperty()
     hours              = db.IntegerProperty()
-    rock_star          = db.BooleanProperty()
-    ninja              = db.BooleanProperty()
-    guru               = db.BooleanProperty()
+    scout_master       = db.BooleanProperty()
+    sensei             = db.BooleanProperty()
+    captain            = db.BooleanProperty()
+    general            = db.BooleanProperty()
+    grand_master       = db.BooleanProperty()
+    twitter_handle     = db.StringProperty()
     created            = db.DateTimeProperty(auto_now_add=True)
 
     @classmethod
@@ -228,12 +231,13 @@ class Program(db.Model):
         if count==0 and user.user_profile=="Mentor":
             program = Program(
                 user                  = user,
-                program_type          = program_data.get('program_type'),
+                program_type          = "MEST Strike Force",
                 commitment_level      = program_data.get('commitment_level'),
                 preferred_email       = program_data.get('email'),
                 mini_bio              = program_data.get('mini_bio'),
                 time_zone             = program_data.get('time_zone'),
-                hours                 = program_data.get('hours')              
+                hours                 = program_data.get('hours'),             
+                twitter_handle        = program_data.get('twitter_handle')              
             )    
             return program
         elif count==0 and user.user_profile=="Job Applicant":
@@ -439,6 +443,43 @@ class Sector(db.Model):
             return True
         else: 
             return True
+
+class KeySkill(db.Model):
+    program   = db.ReferenceProperty(Program, collection_name='key_skills')
+    value     = db.StringProperty()
+    created   = db.DateTimeProperty(auto_now_add=True)
+ 
+    @classmethod
+    def create(cls,program,key_skill):
+        results  = cls.gql("WHERE program=:1 and value=:2",program, key_skill.get('value'))
+        count    = results.count()
+
+        if count==0:
+            new_key_skill = KeySkill(
+                program   = program,
+                value     = key_skill.get('value')              
+            )    
+            new_key_skill.put() 
+
+    @classmethod
+    def delete(cls,program):   
+        result = cls.gql("WHERE program=:1",program)
+        if result.count() == 0:
+            return True
+        else: 
+            db.delete(result)
+
+    @classmethod
+    def remove_mentor_key_skill(cls, value, program):
+        result = cls.gql('WHERE program=:1 and value=:2', program, value)
+        count = result.count()
+
+        if count > 0:
+            db.delete(result)
+            return True
+        else: 
+            return True
+
 
 class Discovery(db.Model):
     program  = db.ReferenceProperty(Program, collection_name='discovery')
@@ -955,3 +996,50 @@ class Subscriber(db.Model):
         return {"action":"delete", "status":value}
 
 
+class Company(db.Model):
+    name  = db.StringProperty()
+    ceo_name = db.StringProperty()
+    ceo_email = db.StringProperty()
+    created          = db.DateTimeProperty(auto_now_add=True)
+
+    @classmethod
+    def create(cls, company):
+        result = cls.gql("WHERE name=:1", company.get("name"))
+
+        if result.count() == 0:
+            new_company = Company (
+                            name = company.get("name"),
+                            ceo_name = company.get("ceo_name"),
+                            ceo_email = company.get("ceo_email")
+                        )
+            new_company.put()
+            return True
+
+        return False
+
+    @classmethod
+    def edit(cls, company):
+        result = cls.gql("WHERE name=:1", company.get("name"))
+
+        if result.count() == 1:
+            edited_company  = result.get()
+            edited_company.name = company.get("name")
+            edited_company.ceo_name = company.get("ceo_name")
+            edited_company.ceo_email = company.get("ceo_email")
+            edited_company.put()
+            return True
+
+        return False
+
+    @classmethod
+    def delete(cls, company_id):
+        try:
+            company = Company.get_by_id(int(company_id))
+            result = cls.gql("WHERE name=:1", company.name)
+            if result.count() > 0:
+                db.delete(result)
+                return True
+            else:
+                return True
+        except:
+            return False

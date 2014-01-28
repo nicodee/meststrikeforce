@@ -236,7 +236,7 @@ class MentorSignUpPageHandler(RequestHandler):
             if exists > 0 :
                 self.render("/duplicate.html")
             else:
-                self.render('mentor/mentorsignupform.html', user_data=json.dumps(userdata))            
+                self.render('mentor/mentorsignupform2.html', user_data=json.dumps(userdata))            
         #redirects to homepage when action above is not successful     
         else:
             self.redirect('/home')
@@ -257,7 +257,7 @@ class MentorSignUpPageHandler(RequestHandler):
                     programJSON = jsonString.convert(programUTF)  
                     program     = populate.create_program(user, programJSON)
                     mail_status = mailhandler.requestMail(user)
-                    notifyuser = mailhandler.notificationMail(user)
+                    notifyuser  = mailhandler.notificationMail(user)
                     message     = json.dumps({"message":"success", "firstname":user.first_name, "lastname":user.last_name})
                     self.log_user_out()
                     self.response.write(message)
@@ -361,8 +361,9 @@ class MentorPageHandler(RequestHandler):
     def get(self):
         if self.user and self.user_profile == "Mentor":
             user = User.get_by_id(int(self.user_id))
-            if user.confirmation_status == "confirmed":                
-                self.render("editmentorprofile.html", mentor = user)
+            if user.confirmation_status == "confirmed":     
+                companies = Company.all()           
+                self.render("editmentorprofile.html", mentor = user, companies=companies)
             else:
                 self.log_user_out()
                 self.render('/success_entrepreneur.html')   
@@ -560,6 +561,55 @@ class EntrepreneurAdminPageHandler(RequestHandler):
 
     def post(self):        
         pass
+##########################################################################
+class CompanyAdminPagehandler(RequestHandler):
+    def get(self):
+        if self.user and self.user_profile == "Administrator":            
+            user      = User.get_by_id(int(self.user_id))
+            companies = Company.all()
+            # self.response.write(user, companies)
+            # self.response.write("hello there")
+            self.render("administrator/companies.html", user=user, companies=companies)
+        else:
+            self.redirect("/admin")            
+    
+    def post(self):        
+        if self.user and self.user_profile == "Administrator":            
+            user    = User.get_by_id(int(self.user_id))
+            action  = self.request.get('action')   
+            result  = False
+            company = {}
+
+            if action == "create":
+                company['name'] = self.request.get("addCompanyName")
+                company['ceo_name'] = self.request.get("addCeoName")
+                company['ceo_email'] = self.request.get("addCeoEmail")
+                result  = Company.create(company)
+                self.redirect("/admin/companies")
+                # company = json.loads(self.request.get("company"))
+                # self.response.write(company)
+
+            elif action == "edit":
+                company['name'] = self.request.get("editCompanyName")
+                company['ceo_name'] = self.request.get("editCeoName")
+                company['ceo_email'] = self.request.get("editCeoEmail")
+                result  = Company.edit(company)
+                if result == True:
+                    self.redirect("/admin/companies")
+                else:
+                    self.redirect("/admin/companies")
+                # self.response.write(company)
+                # company = json.loads(self.request.get("company"))
+            
+            elif action == "delete":
+                company = json.loads(self.request.get("company_id"))
+                result  = Company.delete(company)
+                self.response.write(json.dumps(result))
+
+        else:
+            self.redirect("/admin")
+
+##########################################################################
 
 class MentorAdminPageHandler(RequestHandler):
     def getMentors(self,mentors):        
@@ -575,18 +625,12 @@ class MentorAdminPageHandler(RequestHandler):
         if self.user and self.user_profile == "Administrator":
             new_mentors     = User.all().filter("user_profile =", "Mentor").filter("confirmation_status !=", "confirmed").filter("confirmation_status !=", "declined").filter("confirmation_status !=", "deleted")
             mentors         = self.getMentors(Program.gql("WHERE program_type=:1", "MEST Strike Force"))
-            mba_mentors     = self.getMentors(Program.gql("WHERE program_type=:1", "MBA Consultant"))
-            expert_mentors  = self.getMentors(Program.gql("WHERE program_type=:1", "Expert in residence"))
-            senior_mentors  = self.getMentors(Program.gql("WHERE program_type=:1", "Senior advisor"))
             declined_mentors= User.all().filter("user_profile =", "Mentor").filter("confirmation_status =", "declined").filter("confirmation_status !=", "deleted")
             user            = User.get_by_id(int(self.user_id))
             self.render("administrator/mentor.html",
                                     user=user,
                                     mentors=mentors,
                                     new_mentors=new_mentors,
-                                    mba_mentors=mba_mentors,
-                                    expert_mentors=expert_mentors,
-                                    senior_mentors=senior_mentors,
                                     declined_mentors=declined_mentors, 
                     )
         else:
@@ -595,9 +639,11 @@ class MentorAdminPageHandler(RequestHandler):
     def post(self):
         pass
 
+
 class InboxDefaultHandler(RequestHandler):
     def get(self):
         self.redirect('/messages/inbox')
+
 
 class InboxHandler(RequestHandler):
     def get(self, category):
@@ -634,6 +680,7 @@ class InboxHandler(RequestHandler):
             message = Message.displayMessage(msg_id)
             self.render("view-message.html", message=message, category=category)
             return
+
 
 class ReplyMessageHandler(RequestHandler):
     def get(self, message_id):
@@ -761,7 +808,6 @@ class ComposeNewMessageHandler(RequestHandler):
                 self.redirect("/messages/compose/%d" %(int(recipient_id)))
 
 
-
 class SearchPageHandler(RequestHandler):
     def unique_result(self,array):
         unique_results = []
@@ -769,6 +815,7 @@ class SearchPageHandler(RequestHandler):
             if obj not in unique_results:
                 unique_results.append(obj)
         return unique_results
+        
     def returnCriterias(self,result):
         returnedTopics = []
         for query in result:
@@ -811,6 +858,27 @@ class SearchPageHandler(RequestHandler):
                     returnedSectors.append(userJSON) 
         return returnedSectors
 
+    def returnSkills(self,result):
+        returnedSkills = []
+        for query in result:
+            for query.skill in query:
+                user = query.skill.program.user
+                if user.confirmation_status == "confirmed":
+                    userJSON = {}
+                    userJSON["name"]    = user.first_name + " "+user.last_name
+                    userJSON["id"]      = str(user.key().id())
+                    userJSON["summary"] = user.programs[0].mini_bio
+                    userJSON["profile"] = user.user_profile
+                    userJSON["image"]   = user.picture
+
+                    logged_user                 = User.get_by_id(int(self.user_id))
+                    status                      = Favorite.check(logged_user, userJSON["id"])
+                    userJSON["data_fav_status"] = status["favorite"]
+                    userJSON["data_fav_src"]    = status["src"]
+
+                    returnedSkills.append(userJSON) 
+        return returnedSkills
+
     def get(self):
         if self.user:
             user            = User.get_by_id(int(self.user_id))
@@ -829,8 +897,12 @@ class SearchPageHandler(RequestHandler):
                 successTopics = []
                 successSectors = [] 
                 foundSectors = []
+                successSkills = [] 
+                foundSkills = []
                 sector_count = len(self.request.get('sectors'))
                 topic_count  = len(self.request.get('topics'))
+                skill_count  = len(self.request.get('skills'))
+
                 if topic_count > 2:
                     topicSTRING  = self.request.get('topics')
                     topicUTF     = json.loads(str(topicSTRING))
@@ -847,8 +919,16 @@ class SearchPageHandler(RequestHandler):
                         self.query = Sector.all().filter("value = ", sector.get('value'))
                         foundSectors.append(self.query)
                     successSectors = self.returnSectors(foundSectors)
+                if skill_count > 2:
+                    skillSTRING = self.request.get('skills')
+                    skillUTF    = json.loads(str(skillSTRING))
+                    skillJSON   = jsonString.convert(skillUTF)
+                    for skill in skillJSON:
+                        self.query = KeySkill.all().filter("value = ", skill.get('value'))
+                        foundSkills.append(self.query)
+                    successSkills = self.returnSkills(foundSkills)
 
-                totalResults = successSectors + successTopics
+                totalResults = successSectors + successTopics + successSkills
                 finalResults = self.unique_result(totalResults)
 
                 self.response.write(json.dumps(finalResults))
@@ -996,6 +1076,7 @@ class DeleteHandler(RequestHandler):
         # db.delete(Topic.all())
         # db.delete(User.all())
         # db.delete(Contribution.all())
+        # db.delete(Company.all())
 
 app = webapp2.WSGIApplication([
                                 ('/', MainPage), 
@@ -1008,6 +1089,7 @@ app = webapp2.WSGIApplication([
                                 ("/admin", AdminPageHandler),
                                 ("/admin/entrepreneur", EntrepreneurAdminPageHandler),
                                 ("/admin/mentor", MentorAdminPageHandler),
+                                ("/admin/companies", CompanyAdminPagehandler),
                                 ("/admin/resources", ResourceHandler),
                                 ('/serve/([^/]+)?', ServeHandler),
                                 ("/submit", SubmitHandler),

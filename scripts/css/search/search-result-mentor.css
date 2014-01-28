@@ -278,6 +278,7 @@ padding: 0;
 #profile-brief-skills-tags ul li , 
 #expertise span ul li,
 #industries span ul li,
+#key-skills span ul li,
 .schedule-item li{
 	list-style: none;
 	float: left;
@@ -293,6 +294,7 @@ padding: 0;
 	padding-left: 6px;
 	padding-right: 6px;
 	font-size: 12px;
+	font-weight: normal;
 }
 
 /*#profile-brief-skills-tags ul li,*/
@@ -330,6 +332,7 @@ padding: 0;
 #profile-brief-skills-tags ul, 
 #expertise span ul,
 #industries span ul,
+#key-skills span ul,
 .schedule-item	{
 	margin-left: 0;
 }
@@ -376,8 +379,8 @@ margin-bottom: 20px;
 
 
 #search-fields .nav-pills li {
-	width: 47.5%;
-	margin: 0 2% 0 0;
+	width: 33%;
+	/*margin: 0 2% 0 0;*/
 }
 
 #topics .span12.tp ul,
@@ -416,7 +419,8 @@ margin-bottom: 20px;
 }
 
 #topic-nav a,
-#sector-nav a {
+#sector-nav a,
+#skills-nav a {
 	font-size: 20px;
 }
 
@@ -466,4 +470,17 @@ margin-bottom: 20px;
 .navbar .nav>li>a {
   padding-bottom: 15px;
   padding-top: 15px;
+}
+
+#search-fields #topic-nav {
+	width: 34%;
+}
+
+#sectors .icheckbox_flat-pink,
+#skills .icheckbox_flat-pink {
+	float: left;
+}
+
+#skills .icheckbox_flat-pink {
+	margin-right: 10px;
 }

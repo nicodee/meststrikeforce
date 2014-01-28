@@ -10,12 +10,14 @@ $(document).ready(function(){
 function fetchSearchResults(){
 	var topics        = $("#search-button-data-topics").val();
 	var sectors       = $("#search-button-data-sectors").val();
+	var skills       = $("#search-button-data-skills").val();
 	var topic_count   = topics.length;
 	var sector_count  = sectors.length;
+	var skills_count  = skills.length;
 	var action        = "largeSearch"; 
 	$.ajax('/search', {
 		type: "POST",
-		data:{topics: topics, sectors: sectors, action: action},
+		data:{topics: topics, sectors: sectors, skills: skills, action: action},
 		success: handleResponse
 		});
 }
@@ -41,7 +43,7 @@ function handleResponse(data){
 						'<li class="span3 found-result-mentor"><figure><div>',
 						'<img src="',item.image, 
 						'" alt="img04"></div>',
-						'<figcaption>',
+						'<figcaption data-user_id="',item.id,'">',
 						'<div><h3 class="name-mentor">',
 						item.name,'</h3><span>',item.summary,
 						'</span></div><a href="#myModal" class="user_id" data-user_id="',item.id,'" data-toggle="modal">Take a look</a></figcaption></figure></li>'
@@ -63,6 +65,13 @@ function handleResponse(data){
 		$(".search-result-mentor ul").html(mentorContainer.join("\n"));
 		$(".search-result-job-applicant ul").html(jobApplicantContainer.join("\n"));
     }
+
+ //    $("figcaption").click(
+ //    	function(){
+	// 		var user_id = $(this).attr("data-user_id");
+	// 		fetchFullProfile(user_id);
+	// 		fetchSearchResults();
+	// });
 
 	$(".user_id").click(
 		function(){
@@ -136,11 +145,12 @@ function drawChart() {
     var data = google.visualization.arrayToDataTable([
       ['Task', 'Hours Contributed'],
 		['Hours Completed',     Number($("#piechart").attr("data-committed"))],
-		['Hours Left',    Number($("#piechart").attr("data-left"))]
+		['Hours Committed',    Number($("#piechart").attr("data-left"))]
     ]);
 
     var options = {
-      title: 'Hours I Have Contributed'
+      title: '',
+      colors:['#4d90fe','grey']
     };
 
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));

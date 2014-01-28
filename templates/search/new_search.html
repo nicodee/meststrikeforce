@@ -14,59 +14,64 @@
 		<link rel="stylesheet" type="text/css" href="../../scripts/css/captionstyle.css">
 		<link href="../../scripts/iCheck/skins/flat/purple.css" rel="stylesheet">
 		<link href="../../scripts/iCheck/skins/flat/pink.css" rel="stylesheet">
+		<link href="../../scripts/iCheck/skins/flat/red.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="../../scripts/css/search/search-result-mentor.css">
 		<link rel="stylesheet" type="text/css" href="../../scripts/css/search/custom.css">
 		<style>
-				body{
-					background: #f5f5f5;
-				}
-				#mentor-label {
-					background: #ddd;
-					border-radius: 0px;
-				}
-				#mentors2 {
-					margin-top: -20px; 
-				}
-				.accordion-group {
-					background: #fff;
+			body{
+				background: #f5f5f5;
+			}
+			#mentor-label {
+				background: #ddd;
+				border-radius: 0px;
+			}
+			#mentors2 {
+				margin-top: -20px; 
+			}
+			.accordion-group {
+				background: #fff;
 
-				}
-				#tech-list ul li {
-					width: 23%;
-				}
-				.rateit button.rateit-reset {
-					margin-top: 9px;
-					margin-right: 6px;
-				}
-				#myModal {
-					background-color: #D7D7D7;
-					width: 90%;
-					margin-left: -45%;
-				}
-				#position-description {
-					margin-top: 3px;
-					font-weight: normal;
-					font-size: 60%;
-				}
-				#position-duration-description {
-					margin-top: 0px;
-				}
-				.navbar-inverse .navbar-inner {
-				  background-image: none;
-				  background-color: #222;
-				}
-				.navbar .brand {
-					display: block;
-					float: left;
-					padding: 15px 20px 10px;
-					margin-left: -20px;
-					font-size: 18px;
-					font-weight: 200;
-					color: #777;
-				}
-			</style>
-
-<!-- start Dropifi --> <script type='text/javascript' src='https://s3.amazonaws.com/dropifi/js/widget/dropifi_widget.min.js'></script><script type='text/javascript'>document.renderDropifiWidget('d50c6bd9e2b036bdbc82532cf493b82a-1384997155883');</script> <!-- end Dropifi -->
+			}
+			#tech-list ul li {
+				width: 23%;
+			}
+			.rateit button.rateit-reset {
+				margin-top: 9px;
+				margin-right: 6px;
+			}
+			#myModal {
+				background-color: #D7D7D7;
+				width: 90%;
+				margin-left: -45%;
+			}
+			#position-description {
+				margin-top: 3px;
+				font-weight: normal;
+				font-size: 60%;
+			}
+			#position-duration-description {
+				margin-top: 0px;
+			}
+			.navbar-inverse .navbar-inner {
+			  background-image: none;
+			  background-color: #222;
+			}
+			.navbar .brand {
+				display: block;
+				float: left;
+				padding: 15px 20px 10px;
+				margin-left: -20px;
+				font-size: 18px;
+				font-weight: 200;
+				color: #777;
+			}
+			#skills li {
+				list-style: none;
+				float: left;
+				width: 33%;
+				margin-top: 20px;			
+			}
+		</style>
 	</head>
 
 	
@@ -134,10 +139,12 @@
 			    	
 			    	<div id="search-fields" class="row-fluid">
 			    		<ul class="nav nav-pills">
-						  <li id="topic-nav" class="active"><a href="#topics" data-toggle="tab">Search for Mentor by Expertise</a></li>
+						  <li id="skills-nav"><a href="#skills" data-toggle="tab">Find Mentor by Key Skill</a></li>
+						  <li id="topic-nav" class="active"><a href="#topics" data-toggle="tab">Find Mentor by Expertise</a></li>
 								<input type="hidden" name="search-button-data-sectors" id="search-button-data-sectors" value="[]">
 								<input type="hidden" name="search-button-data-topics"  id="search-button-data-topics" value="[]">
-						  <li class="" id="sector-nav"><a href="#sectors" data-toggle="tab">Search for Mentor by Industry</a></li>
+								<input type="hidden" name="search-button-data-skills"  id="search-button-data-skills" value="[]">
+						  <li id="sector-nav"><a href="#sectors" data-toggle="tab">Find Mentor by Industry</a></li>
 						</ul>
 						<div class="tab-content item row-fluid " id="tab-content">
 							<div class="tab-pane row-fluid active" id="topics">
@@ -240,18 +247,6 @@
 												<li><input type="checkbox"><label>Pricing</label></li>
 												<li><input type="checkbox"><label>Viral Marketing</label></li>
 											</div>	
-										</div>
-										<hr>
-										<div class="row-fluid">
-											<div id="mest-strike-force" class="span12 tp">
-												<label>MEST STRIKE FORCE</label>
-												<ul><span>
-												<li><input type="checkbox"><label>Scaling Expert</label></li>
-												<li><input type="checkbox"><label>SEO Expert</label></li>
-												<li><input type="checkbox"><label>UI/UX Expert</label></li>
-												<li><input type="checkbox"><label>Virality Expert</label></li>
-												</span></ul>
-											</div>
 										</div>
 										<hr>
 										<div class="row-fluid">
@@ -359,6 +354,15 @@
 								<li><input type="checkbox"><label>Sports</label></li>
 								<li><input type="checkbox"><label>Travel</label></li>
 								<li><input type="checkbox"><label>Video</label></li>
+								</span></ul>
+							</div>
+							<div class="tab-pane row-fluid" id="skills">
+								<ul><span>
+								<li><input type="checkbox"><label>Legal Expert</label></li>
+								<li><input type="checkbox"><label>Scaling Expert</label></li>
+								<li><input type="checkbox"><label>SEO Expert</label></li>
+								<li><input type="checkbox"><label>UI/UX Expert</label></li>
+								<li><input type="checkbox"><label>Virality Expert</label></li>
 								</span></ul>
 							</div>
 						</div>

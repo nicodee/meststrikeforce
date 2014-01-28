@@ -18,7 +18,7 @@
     float:left;
 }*/
 #sector-nav a{
-	margin-left: 8px;
+	/*margin-left: 8px;*/
 }
 /*#topics li {
 	list-style:none;
@@ -40,17 +40,16 @@
 	text-align: center;
 	padding-top: 15px;
 }
-.nav-pills li{
+/*.nav-pills li{
 	width: 47%;
 	margin: 0 3% 0 0;
-
-}
+}*/
 .nav-pills>li>a{
 	height: 20px;
-	width: 100%;
+	/*width: 100%;*/
 	text-align: center;
 	padding-top: 15px;
-	margin-right: 2%;
+	/*margin-right: 2%;*/
 }
 #search-button {
 	font-family: sans-serif;
@@ -296,18 +295,18 @@
 	margin-top: -7px;
 }
 
-#position-duration:hover,
+/*#position-duration:hover,
 #education-school-duration:hover{
 	color: black;
-}
+}*/
 
-#position-title:hover, 
+/*#position-title:hover, 
 #position-company:hover, 
 #position-description:hover, 
 #education-school:hover,
 #education-school-degree:hover{
 	color: #069;
-}
+}*/
 
 #profile-resume-item, #comment-item, #profile-education-item {
 	border-top: 1px solid #e5e5e5;

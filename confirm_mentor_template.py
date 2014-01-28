@@ -415,8 +415,8 @@ What happens next?<br>
 Now that you're a member of the MEST Strike Force, our entrepreneurs will be able to look you up in our database and reach out with questions.
 <br>
 <br>
-If you have any questions, kindly contact us at 
-<a href="mailto: info@meltwater.org"><span style="font-size:15px;font-family:Arial;color:#1155cc;background-color:transparent;font-weight:normal;font-style:normal;font-variant:normal;text-decoration:underline;vertical-align:baseline;"> info@meltwater.org</span></a>.
+If you have any questions, please get in touch at 
+<a href="mailto:info@meltwater.org"><span style="font-size:15px;font-family:Arial;color:#1155cc;background-color:transparent;font-weight:normal;font-style:normal;font-variant:normal;text-decoration:underline;vertical-align:baseline;">info@meltwater.org</span></a>.
 <br>
 <br>
 Best regards,<br>
@@ -776,11 +776,11 @@ label="Text only"> </layout></repeater>
 			<td class="w580" width="580">
 				<div class="article-content" align="left">
 					<span style="color: rgb(102, 102, 102);">
-						Thank you for applying to be *|userprofile|* on the MEST Strike Force
+						Thank you for applying to be *|userprofile|* the MEST Strike Force!
 					</span>
 					<br	style="color: rgb(102, 102, 102);">
 					<span style="color: rgb(102, 102, 102);">
-						Your application will be reviewed shortly.
+						We'll review your application shortly and get back to you.
 					</span>
 					<br	style="color: rgb(102, 102, 102);">
 					<span style="color: rgb(102, 102, 102);">
@@ -793,7 +793,7 @@ label="Text only"> </layout></repeater>
 			<td class="w580" width="580">
 				<div class="article-content" align="left">
 					<span style="color: rgb(102, 102, 102);">
-						Regards,
+						Have a great day!
 						<br>
 						The MEST Team
 					</span>
@@ -1153,7 +1153,7 @@ label="Text only"> </layout></repeater>
 				<div class="article-content" align="left">
 					<span style="color: rgb(102, 102, 102);">
 						Thank you for signing up to be a part of the <a href="*|confirmation_url|*">MEST Strike Force</a>. 
-						Your account as an entrepreneur has been approved.
+						Your Entrepreneur account has been approved.
 					</span>
 					<br	style="color: rgb(102, 102, 102);">
 					<br>
@@ -1172,7 +1172,7 @@ label="Text only"> </layout></repeater>
 					</span>
 					<br style="color: rgb(102, 102, 102);">
 					<span style="color: rgb(102, 102, 102);">
-						2) Log into the MEST Strike Force and find a Mentor who can help you overcome that challenge!
+						2) Log into the Platform and find a Strike Force Member who can help you overcome that challenge!
 					</span>
 					<br style="color: rgb(102, 102, 102);">
 					<br style="color: rgb(102, 102, 102);">
@@ -2269,7 +2269,7 @@ label="Text only"> </layout></repeater>
 				<div class="article-content" align="left">
 					<span style="color: rgb(102, 102, 102);">
 						<p>
-							Hello,
+							Hello!
 							<br><br>
 
 							*|contributors_full_name|* just logged *|contributed_hours|* hour(s) for assisting *|company_name|*. This is what *|contributors_first_name|* worked on:
@@ -2279,9 +2279,10 @@ label="Text only"> </layout></repeater>
 								*|description|*
 							</b></i>
 							<br><br>
-							Regards,
+							*|twitter|*							
+							Stay awesome,
 							<br>
-							The MEST Strike Force
+							MEST Strike Force Platform
 						</p>
 					</span>
 				</div>
@@ -2637,7 +2638,7 @@ label="Text only"> </layout></repeater>
 			<td class="w580" width="580">
 				<div class="article-content" align="left" width="20%" style="width: 30%;float: left;">
 					<span style="color: rgb(102, 102, 102);">
-						<img src="http://www.meststrikeforce.appspot.com/scripts/assets/img/mentorbadges/*|badge_name|*.png" alt="" width="60%">
+						<img src="*|server_url|*/scripts/assets/img/mentorbadges/*|badge_name|*.png" alt="" width="60%">
 					</span>
 				</div>
 				<div class="article-content" align="right" width="80%" style="width: 70%;float: right;text-align: left;">
@@ -3006,12 +3007,12 @@ label="Text only"> </layout></repeater>
 				<div class="article-content" align="left">
 					<span style="color: rgb(102, 102, 102);">
 						<p>
-							Heads up - *|contributors_full_name|* just earned the *|badge_category|* badge for donating over *|contributed_hours|* hours to assisting MEST Incubator entrepreneurs! WOOHOO!
-							Give *|contributors_first_name|* a high-five via Twitter or e-mail.
+							Heads up - *|contributors_full_name|* just earned the *|badge_category|* badge for completing over *|contributed_hours|* hours! WOOHOO!
 							<br><br>
-							Regards,
+							*|twitter|*
+							Stay awesome,
 							<br>
-							The MEST Strike Force
+							MEST Strike Force Platform
 						</p>
 					</span>
 				</div>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <title>Companies</title>
+        <!-- Bootstrap -->
+
+
+        <link href="../../scripts/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="../../scripts/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+        <link href="../../scripts/admin/assets/styles.css" rel="stylesheet" media="screen">
+
+        <style>
+        .navbar .navbar-inner ul li a:hover {
+            color: #e5e5e5;
+            border-bottom: 2px solid #5882FA;
+        }
+        </style>
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+    
+    <body>
+        <div class="navbar navbar-fixed-top navbar-inverse">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                    </a>
+                    <a href="/" class="brand">MEST Strike Force</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right">
+                            <li class="active"><a href="/admin">Dashboard</a></li>
+                            <li><a href="/search">Search</a></li>
+                            <li><a href="/messages">Messages</a></li>
+                            <li class="dropdown">
+                                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-user"></i>   {{user.first_name}} {{user.last_name}} <i class="caret"></i>
+
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a tabindex="-1" href="/signout">Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3" id="sidebar">
+                    <ul class="nav nav-list bs-docs-sidenav nav-collapse collapse">
+                        <li>
+                            <a href="/admin"><i class="icon-chevron-right"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="/admin/entrepreneur" id="admin-entrepreneur"><i class="icon-chevron-right"></i> Entrepreneurs </a>
+                        </li>
+                        <li>
+                            <a href="/admin/mentor" id="admin-mentor"><i class="icon-chevron-right"></i> Mentors </a>
+                        </li>                    
+                        <li class="active">
+                            <a href="/admin/companies"><i class="icon-chevron-right"></i> MINC Companies </a>
+                        </li>
+                        <li>
+                            <a href="/admin/resources"><i class="icon-chevron-right"></i> Resources</a>
+                        </li>
+                        <li>
+                            <a href="/search"><i class="icon-chevron-right"></i> Search </a>
+                        </li>
+                         <li>
+                            <a href="/messages"><i class="icon-chevron-right"></i> Message Center </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="span9" id="content">  
+
+                  <div class="row-fluid">
+                        <!-- block -->
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left">Companies</div>
+                            </div>
+                            <div class="block-content collapse in">
+                                <div class="span12">
+                                    {% if companies.count()>0 %}
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Name</th>
+                                                <th>CEO</th>
+                                                <th>Email</th>
+                                            </tr>
+                                        </thead>
+                                         <tbody>
+                                            {% set count = 0 %}
+                                            {% for company in companies.order("name") %}
+                                            <tr class="{{company.key().id()}}">
+                                                {% set count = count+1 %}
+                                                <td>
+                                                    {{count}}
+                                                </td>
+                                                <td>
+                                                    {{company.name}}
+                                                </td>
+                                                <td>
+                                                    {{company.ceo_name}}
+                                                </td>
+                                                <td>{{company.ceo_email}}</td>
+                                                <td>
+                                                    <button class="btn btn-mini delete-company" data-id="{{company.key().id()}}" data-action="delete">Delete</button>
+                                                </td>
+                                            </tr>
+                                            {% endfor%}
+                                        </tbody>
+                                    </table>
+                                    {% else%}
+                                        <h5 class="muted" style="text-align:center">No companies added at the moment</h5>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /block -->
+                  </div>
+
+                  <div class="row-fluid">
+                    <div class="span6">
+                      <div class="row-fluid">
+                        <div class="block">                          
+                          <div class="navbar navbar-inner block-header">
+                            <div class="muted pull-left">Edit Company</div>
+                            </div>
+                            <div class="block-content collapse in">
+                                <div class="span12">
+                                     <form class="form-horizontal" method="post">
+                                      <fieldset>
+                                        <legend>Edit Company</legend>
+                                        <div class="control-group">
+                                          <label class="control-label" for="editCompanyName">Name of Company</label>
+                                          <div class="controls">
+                                            <select id="editCompanyName" class="required" name="editCompanyName" required="true" required>
+                                              {% if companies.count() > 0 %}
+                                                {% for company in companies %}
+                                                  <option value="{{company.name}}">{{company.name}}</option>
+                                                {% endfor %}
+                                              {% endif %}
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="control-group">
+                                          <label class="control-label" for="editCeoName">Name of CEO</label>
+                                          <div class="controls">
+                                            <input class="input-large required" id="editCeoName" name="editCeoName" type="text" placeholder="name of the CEO" required required="true">
+                                          </div>
+                                        </div>
+                                        <div class="control-group">
+                                          <label class="control-label" for="editCeoEmail">Email of CEO</label>
+                                          <div class="controls">
+                                            <input type="email" id="editCeoEmail" required name="editCeoEmail" class="required" required="true">
+                                          </div>
+                                        </div>
+                                        <div class="form-actions" style="background: #fff; border:none;">
+                                          <button type="submit" class="btn btn-primary" name="action" value="edit">Save changes</button>
+                                          <button type="reset" class="btn">Cancel</button>
+                                        </div>
+                                      </fieldset>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>    
+                      </div>                  
+                    </div>
+                    <div class="span6">                      
+                      <div class="row-fluid">
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left">Add New Company</div>
+                            </div>
+                            <div class="block-content collapse in">
+                                <div class="span12">
+                                     <form class="form-horizontal" method="post">
+                                      <fieldset>
+                                        <legend>Add New Company</legend>
+                                        <div class="control-group">
+                                          <label class="control-label" for="addCompanyName">Name of Company</label>
+                                          <div class="controls">
+                                            <input class="input-large required" required required="true" id="addCompanyName" name="addCompanyName" type="text" placeholder="name of the MINC company">
+                                          </div>
+                                        </div>
+                                        <div class="control-group">
+                                          <label class="control-label" for="addCeoName">Name of CEO</label>
+                                          <div class="controls">
+                                            <input class="input-large required" required required="true" id="addCeoName" name="addCeoName" type="text" placeholder="name of the CEO">
+                                          </div>
+                                        </div>
+                                        <div class="control-group">
+                                          <label class="control-label" for="addCeoEmail">Email of CEO</label>
+                                          <div class="controls">
+                                            <input type="email" id="addCeoEmail" class="required" name="addCeoEmail" required required="true">
+                                          </div>
+                                        </div>
+                                        <div class="form-actions" style="background: #fff; border:none;">
+                                          <button type="submit" class="btn btn-primary" name="action" value="create">Add Company</button>
+                                          <button type="reset" class="btn">Cancel</button>
+                                        </div>
+                                      </fieldset>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>                       
+                      </div>
+                    </div>
+                  </div>
+
+                </div>      
+          </div>
+        </div>
+        <script src="../scripts/admin/vendors/jquery-1.9.1.min.js"></script>
+        <script src="../scripts/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../scripts/admin/assets/scripts.js"></script>
+        <script src="../scripts/assets/js/companies.js"></script>
+        <script>
+          if(window.location.href.substr(-2) !== "?r") {
+            window.location = window.location.href + "?r";
+          }
+        </script>
+    </body>
+
+</html>
+
+
+

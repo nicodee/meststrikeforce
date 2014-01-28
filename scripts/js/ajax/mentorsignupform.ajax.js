@@ -5,23 +5,27 @@ $('#submit-form').click(
     function(){
         var length_topics  = $("#topics .checked .iCheck-helper");
         var length_sectors = $("#sectors .checked .iCheck-helper");
+        var skills = $(".key_skills.active").length;
 
-        if (length_topics.length == 0 && length_sectors.length == 0){
-            alert("Please choose an area of expertise");   
+        if (skills == 0){
+            alert("Please choose a key skill!");
+            return false;
+        }
+        else if (length_topics.length == 0 && length_sectors.length == 0){
+            alert("Please choose an area of expertise!");   
             return false;
         }
         else if (Number($("#hours-to-commit").val()) == 0) {
-            alert("Please enter the number of hours you are willing to contribute");
+            alert("Please enter the number of hours you are willing to contribute!");
             return false;
         }
         else{
-                var program_data = JSON.stringify(populate_user_data());
-                var user_data    = JSON.parse(getUserData());
-                var userdata     = JSON.stringify(user_data);
-                current          = $(this);
-                makeAjaxCall(program_data, userdata);
-
-                return false;
+            var program_data = JSON.stringify(populate_user_data());
+            var user_data    = JSON.parse(getUserData());
+            var userdata     = JSON.stringify(user_data);
+            current          = $(this);
+            makeAjaxCall(program_data, userdata);
+            return false;
         }
     }
 );
@@ -52,6 +56,8 @@ function populate_user_data() {
     var sectors          = getSectors();
     var referrals        = getReferrals();
     var hours_to_commit  = Number($("#hours-to-commit").val());
+    var key_skills       = getKeySkills();
+    var twitter_handle   = $("#twitter_handle").val();
 
     user_data= {
         "program_type": program_type,
@@ -61,14 +67,16 @@ function populate_user_data() {
         "topic": topics,
         "sector": sectors, 
         "referral": referrals,
-        "hours": hours_to_commit
+        "hours": hours_to_commit,
+        "key_skills": key_skills,
+        "twitter_handle": twitter_handle
     } 
     return user_data;
 }
 
 //returns selected program
 function getProgram() {
-    return $('#programs :selected').attr('data-value');
+    return "MEST Strike Force";
 }
 
 //returns email address 
@@ -85,6 +93,19 @@ function getTimeZone() {
 //returns short bio of user
 function getSummary() {
     return $("#summary-text").val();
+}
+
+//returns a list of selected skills
+function getKeySkills() {
+    var key_skills = [];
+    $(".key_skills.active").each(
+        function () { 
+            var skill = {};
+            skill['value'] = $(this).attr("data-value");
+            key_skills.push(skill);
+        });
+    console.log(key_skills);
+    return key_skills;
 }
 
 //returns a list of selected topics

@@ -1,6 +1,6 @@
 <div class="row-fluid skills" id="profile-brief-skills-tags">
 	<div class="row-fluid tags" id="">
-		<label>ENDORSED FOR</label>
+		<span><b>ENDORSED FOR</b></span>
 	</div>
 	<span>
 		<ul>
@@ -15,9 +15,31 @@
 	</span>
 </div>
 
+<div class="row-fluid skills" id="key-skills">
+	<div class="row-fluid tags" id="">
+		<span><b>KEY SKILLS</b></span>
+	</div>
+	<div class="row-fluid">
+		<span>
+			<ul>
+				{% if mentor.programs[0].key_skills.count() > 0 %}
+					{% for skill in mentor.programs[0].key_skills.order('value') %}
+						<li>{{skill.value}}</li>
+					{% endfor %}
+				{% else %}
+					<li>None selected</li>
+				{% endif %}
+			</ul>
+		</span>				    							
+	</div>
+	<div class="row-fluid">
+		<a href="#skillsModal" role="button" class="btn" data-toggle="modal">Click here to edit</a>
+	</div>
+</div>
+
 <div class="row-fluid skills" id="industries">
 	<div class="row-fluid tags" id="">
-		<label>INDUSTRIES</label>
+		<span><b>INDUSTRIES</b></span>
 	</div>
 	<div class="row-fluid">
 		<span>
@@ -39,7 +61,7 @@
 
 <div class="row-fluid skills" id="expertise">
 	<div class="row-fluid tags" id="">
-		<label>EXPERTISE</label>
+		<span><b>EXPERTISE</b></span>
 	</div>
 	<div class="row-fluid">			    							
 		<span>

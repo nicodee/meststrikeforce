@@ -10,6 +10,27 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: Contribution
+  properties:
+  - name: program
+  - name: company
+
+- kind: Education
+  properties:
+  - name: user
+  - name: end_date
+
+- kind: Education
+  properties:
+  - name: user
+  - name: end_date
+    direction: desc
+
+- kind: KeySkill
+  properties:
+  - name: program
+  - name: value
+
 - kind: Message
   properties:
   - name: receiver
@@ -23,6 +44,21 @@ indexes:
   - name: sender_deleted
   - name: created
     direction: desc
+
+- kind: Sector
+  properties:
+  - name: program
+  - name: value
+
+- kind: Skills
+  properties:
+  - name: user
+  - name: name
+
+- kind: Topic
+  properties:
+  - name: program
+  - name: value
 
 - kind: User
   properties:

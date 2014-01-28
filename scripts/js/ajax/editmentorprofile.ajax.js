@@ -5,6 +5,9 @@ $(document).ready(function(){
 	$('.modal #industries span ul li').bind('click', function () {
 		checkSector($(this));
 	});
+	$('#skillsModal figure').bind('click', function () {
+		checkSkills($(this));
+	});
 	$("#submit-contribution").bind('click', function () {
 		submitContribution();
 	})
@@ -14,10 +17,17 @@ $(document).ready(function(){
 	$('#sectorModal').on('hidden', function () {
 	    refreshTopics();
 	});
+	$('#skillsModal').on('hidden', function () {
+	    refreshTopics();
+	});
 });
 
 function checkTopic(object){
 	edit(object,'topic');
+}
+
+function checkSkills (object) {
+	edit(object, "key_skill");
 }
 
 function checkSector(object){
@@ -70,6 +80,9 @@ function submitContribution () {
 	var hours = $("#inputHours").val();
 
 	if (company && description && hours){
+		$("#submit-contribution").addClass("btn-primary");
+		$("#submit-contribution").text("adding.......");
+		$("#submit-contribution").attr("disabled", "disabled");
 		var action = "add_contribution";
 		var contribution = JSON.stringify({"company":company, "description": description, "hours": hours});
 		$.ajax('/mentor', {

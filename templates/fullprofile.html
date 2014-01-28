@@ -28,7 +28,7 @@
 		            		
 						</div>
 						<div class="span7" id="profile-brief-text">
-							<div class="row-fluid">
+							<div class="row-fluid" style="margin-top:20px;">
 								<label id="profile-name">
 									<h3 id="mentor-profile-name">{{mentor.first_name}} {{mentor.last_name}}</h3>
 								</label>
@@ -67,10 +67,17 @@
 							<div class="row-fluid" id="hours-to-commit">
 								<p>
 		    						<span>
-		    							<strong>Hours:</strong> {{mentor.programs[0].hours}} hour(s)
-		    						</span>										
+		    							<strong>Hours Committed:</strong> {{mentor.programs[0].hours}} hour(s)
+		    						</span>														
 								</p>
-							</div>		
+							</div>
+							<div class="row-fluid" id="hours-completed">
+								<p>
+		    						<span>
+		    							<strong>Hours Completed:</strong> {{mentor|hours_committed}} hour(s)
+		    						</span>														
+								</p>
+							</div>	
 						</div>
 
 						<div class="row-fluid badges" id="badges">
@@ -93,15 +100,15 @@
 								</div>	
 							{% endif %}								  						
 
-							{% if count >= 75 %}
+							{% if count >= 100 %}
 								<div class="span1" id="img4">
-	    							<img src="../../scripts/assets/img/mentorbadges/BadgeSilhouette.png" alt="">						
+	    							<img src="../../scripts/assets/img/mentorbadges/Badge100.png" alt="">						
 								</div>	
 							{% endif %}								  						
 								
-							{% if count >= 100 %}
+							{% if count >= 250 %}
 								<div class="span1" id="img5">
-	    							<img src="../../scripts/assets/img/mentorbadges/BadgeSilhouette.png" alt="">   						
+	    							<img src="../../scripts/assets/img/mentorbadges/Badge250.png" alt="">   						
 								</div>	
 							{% endif %}								  						
 						</div>
@@ -118,7 +125,7 @@
 				<div class="row-fluid" id="profile-summary-content">
 					<span>
 						<p>
-							{% if mentor.summary != None%}
+							{% if mentor.summary != None %}
 								{{mentor.summary}}
 							{% else %}
 								{{mentor.programs[0].mini_bio}}
@@ -164,7 +171,7 @@
 			<div class="row-fluid" id="profile-education">
 				<div class="profile-education-label"><span><h5>Education</h5></span></div>
 				<div class="row-fluid" id="profile-education-list">
-					{% for school in mentor.educations.order('-end_date') %}
+					{% for school in mentor.educations.order('end_date') %}
 						<div class="row-fluid" id="profile-education-item">
 							<div class="row-fluid" id="education-school-details">
 								<p id="education-school"> {{school.school_name}} <p>
@@ -225,6 +232,22 @@
 					<ul>
 						{% for skill in mentor.skills.order('name') %}
 							<li>{{skill.name}}</li>
+						{% endfor %}
+					</ul>
+				</span>
+			</div>
+			{% endif %}
+
+
+			{% if mentor.programs[0].key_skills.count() > 0 %}
+			<div class="row-fluid skills" id="key-skills">
+				<div class="row-fluid tags" id="">
+					<label>KEY SKILLS</label>
+				</div>
+				<span>
+					<ul>
+						{% for skill in mentor.programs[0].key_skills.order('value') %}
+							<li>{{skill.value}}</li>
 						{% endfor %}
 					</ul>
 				</span>
