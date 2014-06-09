@@ -528,10 +528,10 @@ class AdminPageHandler(RequestHandler):
             try:
                 applicant_id   = self.request.get("user_id")
                 applicant      = User.get_by_id(int(applicant_id))
-                applicant.confirmation_status = "deleted"
-                applicant.put()
-                result         = True
-                # result         = populate.delete_user(applicant)
+                # applicant.confirmation_status = "deleted"
+                # applicant.put()
+                # result         = True
+                result         = populate.delete_user(applicant)
                 if result == True:
                     self.response.write(json.dumps({"status":"success","action":"remove","value":True}))
                 else:
