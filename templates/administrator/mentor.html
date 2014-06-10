@@ -66,17 +66,17 @@
                             <a href="/admin"><i class="icon-chevron-right"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="/admin/entrepreneur" id="admin-entrepreneur"><i class="icon-chevron-right"></i> Entrepreneur </a>
+                            <a href="/admin/entrepreneur" id="admin-entrepreneur"><i class="icon-chevron-right"></i> Entrepreneurs </a>
                         </li>
                         <li class="active">
-                            <a href="/admin/mentor" id="admin-mentor"><i class="icon-chevron-right"></i> Mentor </a>
+                            <a href="/admin/mentor" id="admin-mentor"><i class="icon-chevron-right"></i> Mentors </a>
                         </li>
                         <li>
                             <a href="/admin/companies"><i class="icon-chevron-right"></i> MINC Companies </a>
                         </li>
-                        <li>
+<!--                         <li>
                             <a href="/admin/resources  "><i class="icon-chevron-right"></i> Resources</a>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="/search  "><i class="icon-chevron-right"></i> Search </a>
                         </li>
@@ -110,6 +110,7 @@
                                                 <th>#</th>
                                                 <th>First name</th>
                                                 <th>Last name</th>
+                                                <th>Email</th>
                                                 <th>Program</th>
                                                 <th>Date created</th>
                                             </tr>
@@ -120,13 +121,16 @@
                                             <tr class="pending {{new_mentor.key().id()}}">
                                                 {% set count = count+1 %}
                                                 <td>
-                                                    <a href="{{new_mentor.linkedin_profile}}" onclick="javascript:void window.open('{{new_mentor.linkedin_profile}}','1380632813670','width=700,height=500,toolbar=0,menubar=1,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');return false;">{{count}}</a>
+                                                    <a href="{{new_mentor.linkedin_profile}}" target="_blank">{{count}}</a>
                                                 </td>
                                                 <td>
-                                                    <a href="{{new_mentor.linkedin_profile}}" onclick="javascript:void window.open('{{new_mentor.linkedin_profile}}','1380632813670','width=700,height=500,toolbar=0,menubar=1,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');return false;">{{new_mentor.first_name}}</a>
+                                                    <a href="{{new_mentor.linkedin_profile}}" target="_blank">{{new_mentor.first_name}}</a>
                                                 </td>
                                                 <td>
-                                                    <a href="{{new_mentor.linkedin_profile}}" onclick="javascript:void window.open('{{new_mentor.linkedin_profile}}','1380632813670','width=700,height=500,toolbar=0,menubar=1,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');return false;">{{new_mentor.last_name}}</a>
+                                                    <a href="{{new_mentor.linkedin_profile}}" target="_blank">{{new_mentor.last_name}}</a>
+                                                </td>
+                                                <td>
+                                                    {{new_mentor.email}}
                                                 </td>
 
                                                 {% for prog in new_mentor.programs%}
@@ -175,6 +179,7 @@
                                                 <th>#</th>
                                                 <th>First name</th>
                                                 <th>Last name</th>
+                                                <th>Email</th>
                                                 <th>Program</th>                                            
                                                 <th>Date confirmed</th>
                                                 <th>Action</th>
@@ -186,13 +191,16 @@
                                             <tr>
                                                 {% set count = count+1 %}
                                                 <td>
-                                                    <a href="{{mentor.linkedin_profile}}" onclick="javascript:void window.open('{{mentor.linkedin_profile}}','1380632813670','width=700,height=500,toolbar=0,menubar=1,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');return false;">{{count}}</a>
+                                                    <a href="/mentor/profile/{{mentor.key().id()}}" target="_blank">{{count}}</a>
                                                 </td>
                                                 <td>
-                                                    <a href="{{mentor.linkedin_profile}}" onclick="javascript:void window.open('{{mentor.linkedin_profile}}','1380632813670','width=700,height=500,toolbar=0,menubar=1,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');return false;">{{mentor.first_name}}</a>
+                                                    <a href="/mentor/profile/{{mentor.key().id()}}" target="_blank">{{mentor.first_name}}</a>
                                                 </td>
                                                 <td>
-                                                    <a href="{{mentor.linkedin_profile}}" onclick="javascript:void window.open('{{mentor.linkedin_profile}}','1380632813670','width=700,height=500,toolbar=0,menubar=1,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');return false;">{{mentor.last_name}}</a>
+                                                    <a href="/mentor/profile/{{mentor.key().id()}}" target="_blank">{{mentor.last_name}}</a>
+                                                </td>
+                                                <td>
+                                                    {{mentor.email}}
                                                 </td>
                                                 {% for prog in mentor.programs%}
                                                 <td>{{prog.program_type}}</td>
@@ -238,6 +246,7 @@
                                                 <th>#</th>
                                                 <th>First name</th>
                                                 <th>Last name</th>
+                                                <th>Email</th>
                                                 <th>Program</th>
                                                 <th>Date declined</th>
                                                 <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action</th>
@@ -249,13 +258,16 @@
                                             <tr class="pending {{declined_mentor.key().id()}}">
                                                 {% set count = count+1 %}
                                                 <td>
-                                                    <a href="{{declined_mentor.linkedin_profile}}" onclick="javascript:void window.open('{{declined_mentor.linkedin_profile}}','1380632813670','width=700,height=500,toolbar=0,menubar=1,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');return false;">{{count}}</a>
+                                                    <a href="{{declined_mentor.linkedin_profile}}" target="_blank">{{count}}</a>
                                                 </td>
                                                 <td>
-                                                    <a href="{{declined_mentor.linkedin_profile}}" onclick="javascript:void window.open('{{declined_mentor.linkedin_profile}}','1380632813670','width=700,height=500,toolbar=0,menubar=1,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');return false;">{{declined_mentor.first_name}}</a>
+                                                    <a href="{{declined_mentor.linkedin_profile}}" target="_blank">{{declined_mentor.first_name}}</a>
                                                 </td>
                                                 <td>
-                                                    <a href="{{declined_mentor.linkedin_profile}}" onclick="javascript:void window.open('{{declined_mentor.linkedin_profile}}','1380632813670','width=700,height=500,toolbar=0,menubar=1,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');return false;">{{declined_mentor.last_name}}</a>
+                                                    <a href="{{declined_mentor.linkedin_profile}}" target="_blank">{{declined_mentor.last_name}}</a>
+                                                </td>
+                                                <td>
+                                                    {{declined_mentor.email}}
                                                 </td>
                                                 {% for prog in declined_mentor.programs%}
                                                 <td>{{prog.program_type}}</td>

@@ -178,6 +178,12 @@
 				#full-profile-content-right{
 					margin-bottom: 30px;
 				}
+				.row-fluid .span2.skills{
+					width: 11.529915%;
+					height: 150px;
+					padding: 10px;
+					text-align: center;
+				}
 		</style>
 	</head>
 
@@ -898,64 +904,44 @@
 		  </div>
 		  <div class="modal-body">
 		  	<div class="row-fluid">
-		  		<!-- <div class=""> -->
-					<!-- <div class="row-fluid skills" id="key-skills" style="width: 95%;"> -->
-<!-- 						<div class="row-fluid">
-							<span>
-								<ul>
-								
-									<li class="{{ mentor.programs[0].key_skills|is_topic('Legal Expert')}}" data-topic-criteria="Key Skill">
-										Legal Expert
-									</li>
-																
-									<li class="{{ mentor.programs[0].key_skills|is_topic('SEO Expert')}}" data-topic-criteria="Key Skill">
-										SEO Expert
-									</li>
-								
-									<li class="{{ mentor.programs[0].key_skills|is_topic('Scaling Expert')}}" data-topic-criteria="Key Skill">
-										Scaling Expert
-									</li>								
-								
-									<li class="{{ mentor.programs[0].key_skills|is_topic('UI/UX Expert')}}" data-topic-criteria="Key Skill">
-										UI/UX Expert
-									</li>
-								
-									<li class="{{ mentor.programs[0].key_skills|is_topic('Virality Expert')}}" data-topic-criteria="Key Skill">
-										Virality Expert
-									</li>
+				<div id="key_skills_container" class="row-fluid">	
+					<figure class="span1" style="width:0%"></figure>				
+			        <figure class="span2 skills {{ mentor.programs[0].key_skills|is_topic('Graphic Design')}}" data-topic-criteria="Graphic Design" id="figure2" style="float:left;" class="key_skills">
+					  <img src="../scripts/assets/img/key_skills/design.png" alt="Graphic Design" style="width:100%;">
+					  <figcaption>Graphic Design</figcaption>
+					</figure>
 
-								</ul>
-							</span>
-						</div> -->
+			        <figure class="span2 skills {{ mentor.programs[0].key_skills|is_topic('Legal Matters')}}" data-topic-criteria="Legal Matters" id="figure2" style="float:left;" class="key_skills">
+					  <img src="../scripts/assets/img/key_skills/legal.png" alt="Legal Matters" style="width:100%;">
+					  <figcaption>Legal Matters</figcaption>
+					</figure>				
+			        
+			        <figure class="span2 skills {{ mentor.programs[0].key_skills|is_topic('Machine Learning')}}" data-topic-criteria="Machine Learning" id="figure2" style="float:left;" class="key_skills">
+					  <img src="../scripts/assets/img/key_skills/MachineLearning.png" alt="Machine Learning" style="width:100%;">
+					  <figcaption>Machine Learning</figcaption>
+					</figure>
 
-						<div id="key_skills_container" class="row-fluid">	
-							<figure class="span1"></figure>				
-					        <figure class="span2 skills {{ mentor.programs[0].key_skills|is_topic('Legal Expert')}}" data-topic-criteria="Legal Expert" id="figure2" style="float:left;" class="key_skills">
-							  <img src="../scripts/assets/img/key_skills/legal.png" alt="Legal Expert" style="width:100%;">
-							  <figcaption>Legal Expert</figcaption>
-							</figure>
-
-					        <figure class="span2 skills {{ mentor.programs[0].key_skills|is_topic('Scaling Expert')}}" data-topic-criteria="Scaling Expert" id="figure2" style="float:left;" class="key_skills">
-							  <img src="../scripts/assets/img/key_skills/scaling.png" alt="Scaling Expert" style="width:100%;">
-							  <figcaption>Scaling Expert</figcaption>
-							</figure>
-					        
-					        <figure class="span2 skills {{ mentor.programs[0].key_skills|is_topic('SEO Expert')}}" data-topic-criteria="SEO Expert" id="figure2" style="float:left;" class="key_skills">
-							  <img src="../scripts/assets/img/key_skills/seo.png" alt="SEO Expert" style="width:100%;">
-							  <figcaption>SEO Expert</figcaption>
-							</figure>
-					        
-					        <figure class="span2 skills {{ mentor.programs[0].key_skills|is_topic('UI/UX Expert')}}" data-topic-criteria="UI/UX Expert" id="figure2" style="float:left;" class="key_skills">
-							  <img src="../scripts/assets/img/key_skills/uiux.png" alt="UI/UX Expert" style="width:100%;">
-							  <figcaption>UI/UX Expert</figcaption>
-							</figure>
-					        
-					        <figure class="span2 skills {{ mentor.programs[0].key_skills|is_topic('Virality Expert')}}" data-topic-criteria="Virality Expert" id="figure2" style="float:left;" class="key_skills">
-							  <img src="../scripts/assets/img/key_skills/virality.png" alt="Virality Expert" style="width:100%;">
-							  <figcaption>Virality Expert</figcaption>
-							</figure>
-							<figure class="span1"></figure>				
-				        </div>
+			        <figure class="span2 skills {{ mentor.programs[0].key_skills|is_topic('Scaling')}}" data-topic-criteria="Scaling" id="figure2" style="float:left;" class="key_skills">
+					  <img src="../scripts/assets/img/key_skills/scaling.png" alt="Scaling" style="width:100%;">
+					  <figcaption>Scaling</figcaption>
+					</figure>
+			        
+			        <figure class="span2 skills {{ mentor.programs[0].key_skills|is_topic('SEO/SEM')}}" data-topic-criteria="SEO/SEM" id="figure2" style="float:left;" class="key_skills">
+					  <img src="../scripts/assets/img/key_skills/seo.png" alt="SEO/SEM" style="width:100%;">
+					  <figcaption>SEO/SEM</figcaption>
+					</figure>
+			        
+			        <figure class="span2 skills {{ mentor.programs[0].key_skills|is_topic('UI/UX')}}" data-topic-criteria="UI/UX" id="figure2" style="float:left;" class="key_skills">
+					  <img src="../scripts/assets/img/key_skills/uiux.png" alt="UI/UX" style="width:100%;">
+					  <figcaption>UI/UX</figcaption>
+					</figure>
+			        
+			        <figure class="span2 skills {{ mentor.programs[0].key_skills|is_topic('Virality')}}" data-topic-criteria="Virality" id="figure2" style="float:left;" class="key_skills">
+					  <img src="../scripts/assets/img/key_skills/virality.png" alt="Virality" style="width:100%;">
+					  <figcaption>Virality</figcaption>
+					</figure>
+					<!-- <figure class="span1"></figure>				 -->
+		        </div>
 
 					<!-- </div> -->
 				<!-- </div> -->

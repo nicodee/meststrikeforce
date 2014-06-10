@@ -257,7 +257,7 @@ class MentorSignUpPageHandler(RequestHandler):
                     programUTF  = json.loads(self.request.get('program')) 
                     programJSON = jsonString.convert(programUTF)  
                     program     = populate.create_program(user, programJSON)
-                    mail_status = mailhandler.requestMail(user)
+                    mail_status = mailhandler.requestMentorMail(user)
                     notifyuser  = mailhandler.notificationMail(user)
                     message     = json.dumps({"message":"success", "firstname":user.first_name, "lastname":user.last_name})
                     self.log_user_out()
@@ -709,6 +709,19 @@ class ReplyMessageHandler(RequestHandler):
                     page="messages/inbox",
                     receiver=message.sender)
 
+class MentorProfileHandler(RequestHandler):
+    def getUser(self, user_id):
+        return User.get_by_id(int(user_id))
+
+    def get(self, user_id):
+        if self.user:
+            user = User.get_by_id(int(self.user_id))
+            if user.user_profile == "Entrepreneur" or user.user_profile == "Administrator":
+                mentor = self.getUser(user_id)     
+                companies = Company.all()           
+                self.render("mentorprofile.html", mentor = mentor, user = user, companies = companies)
+        else:
+            self.redirect("/home")
 
 class ComposeNewMessageHandler(RequestHandler):
     def getUser(self, user_id):
@@ -1087,6 +1100,7 @@ app = webapp2.WSGIApplication([
                                 ('/loginpage', LoginPageHandler),
                                 ('/entrepreneur', EntrepreneurPageHandler),
                                 ('/mentor', MentorPageHandler),
+                                ('/mentor/profile/(\d+)', MentorProfileHandler),
                                 ("/admin", AdminPageHandler),
                                 ("/admin/entrepreneur", EntrepreneurAdminPageHandler),
                                 ("/admin/mentor", MentorAdminPageHandler),

@@ -16,3 +16,5 @@ newhour = confirm_mentor_template.newhour
 newbadge = confirm_mentor_template.newbadge
 
 newbadgeadmin = confirm_mentor_template.newbadgeadmin
+
+request_mentor = confirm_mentor_template.request_mentor_template

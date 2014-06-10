@@ -104,6 +104,45 @@ def requestMail(user):
     print sendRequestMail(from_email, from_name, to_email, to_name, subject, html, tags, reply_to, variables)
 
 
+def requestMentorMail(user):
+    def get_job(user):
+        mentor = user
+        # try: 
+        if mentor.positions.count() > 0: 
+            for position in mentor.positions.filter('is_current =', True): 
+                return "%s at %s" %(position.title, position.company)
+        else:
+            for school in mentor.educations.order('-end_date').fetch(limit=1): 
+                return "Student at %s" %(school.school_name)
+        # except:
+        #     return None
+    new_user_name    = user.first_name + " " + user.last_name
+    new_user_role    = user_role.get(user.user_profile)
+
+    from_email       = "admin@meststrikeforce.appspotmail.com" 
+    from_name        = "MEST Strike Force"
+
+    recipient        = getAdminDetails();
+
+    to_email         = recipient.get("email")
+    to_name          = recipient.get("name")
+
+    subject          = "New MEST Strike Force member!"
+    html             = mailContent.request_mentor
+    reply_to         = recipient.get("alias")
+    tags             = "Request For Mentor Confirmation"
+
+    confirmation_url = access.admin_url
+
+    variables        = [{'name': 'username', 'content': new_user_name}, 
+                        {'name': 'role', 'content': new_user_role }, 
+                        {'name':'confirmation_url', 'content': confirmation_url},
+                        {'name': 'location', 'content': user.location},
+                        {'name': 'job', 'content': get_job(user)}]
+
+    print sendRequestMail(from_email, from_name, to_email, to_name, subject, html, tags, reply_to, variables)
+
+
 def sendRequestMail(from_email, from_name, to_email, to_name, subject, html, tags, reply_to, variables):
     try:
         mandrill_client = mandrill.Mandrill(KEY)
@@ -204,7 +243,7 @@ def confirmUserMail(user):
                     {'name': 'confirmation_url', 'content': confirmation_url}]
 
 
-    reply_to = "admin@meststrikeforce.appspotmail.com"
+    reply_to = "incubator@meltwater.org"
     tags = "Confirmed User"
     merge = False
     return sendOutboundMail(from_email, from_name, to_email, to_name, subject, html, tags, reply_to, variables, merge)
@@ -218,14 +257,15 @@ def notificationMail(user):
     user_profile = ""
     if user.user_profile == "Mentor":
         user_profile = "a member of"
-        subject = "We've Received Your MEST Strike Force Application"          
+        subject = "Thank you for joining the MEST Strike Force!"          
     else:
         user_profile = "an Entrepreneur on"        
         subject = "We've Received Your Entrepreneur Application"          
     html = mailContent.signup_template
     variables = [{ 'name': 'username', 'content': to_name},
-                {'name': 'userprofile', 'content': user_profile}]
-    reply_to = "admin@meststrikeforce.appspotmail.com"
+                {'name': 'userprofile', 'content': user_profile},
+                {'name':'firstname', 'content': user.first_name}]
+    reply_to = "incubator@meltwater.org"
     tags = "Confirmed User"
     merge = False
     return sendOutboundMail(from_email, from_name, to_email, to_name, subject, html, tags, reply_to, variables, merge)

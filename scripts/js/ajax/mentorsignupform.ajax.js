@@ -154,7 +154,7 @@ function getReferrals() {
 }
 
 function makeAjaxCall(program, user_data) {
-    alert("Please wait a while. Your form is being submitted.");
+    // alert("Please wait a while. Your form is being submitted.");
     $('#submit-form').attr('disabled', 'disabled');
     $(".last.previous.action-button").attr('disabled', 'disabled');
     $(".last.previous.action-button").addClass('disabled');
@@ -192,8 +192,8 @@ function handleResponse(data){
 
 
 function moveOn(result){
-    var name = result.firstname + " " + result.lastname; 
-    var html = "Thank you "+name+".<br>Your application will be reviewed shortly.<br>If you have any questions, please contact <strong>info@meltwater.org</strong>";
+    var name = result.firstname; 
+    var html = "Thanks, "+name+"!<br>Your application will be reviewed shortly.<br>If you have any questions, please contact <strong>incubator@meltwater.org</strong>";
 
     if(result.message=='success'){  
         $("#success_msg").html(html);  
