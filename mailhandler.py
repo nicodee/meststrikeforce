@@ -65,7 +65,7 @@ def getAdminDetails():
     recipient    = {}
 
     recipient['name']  = "Administration" 
-    recipient['email'] = "nnutsukpui@gmail.com"
+    recipient['email'] = "incubator@meltwater.org"
     recipient['alias'] = "admin@meststrikeforce.appspotmail.com"
 
     return recipient
@@ -252,7 +252,7 @@ def confirmUserMail(user):
                     {'name': 'confirmation_url', 'content': confirmation_url}]
 
 
-    reply_to = "nnutsukpui@gmail.com"
+    reply_to = "incubator@meltwater.org"
     tags = "Confirmed User"
     merge = False
     return sendOutboundMail(from_email, from_name, to_email, to_name, subject, html, tags, reply_to, variables, merge)
@@ -274,7 +274,7 @@ def notificationMail(user):
     variables = [{ 'name': 'username', 'content': to_name},
                 {'name': 'userprofile', 'content': user_profile},
                 {'name':'firstname', 'content': user.first_name}]
-    reply_to = "nnutsukpui@gmail.com"
+    reply_to = "incubator@meltwater.org"
     tags = "Confirmed User"
     merge = False
     return sendOutboundMail(from_email, from_name, to_email, to_name, subject, html, tags, reply_to, variables, merge)
