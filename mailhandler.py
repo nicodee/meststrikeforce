@@ -1,4 +1,4 @@
-from models import User, Message, Contribution, Program, Company
+from models import User, Message, Contribution, Program, Company, Resource
 from time import gmtime, strftime
 import mandrill
 import exceptions
@@ -65,7 +65,7 @@ def getAdminDetails():
     recipient    = {}
 
     recipient['name']  = "Administration" 
-    recipient['email'] = "incubator@meltwater.org"
+    recipient['email'] = "nnutsukpui@gmail.com"
     recipient['alias'] = "admin@meststrikeforce.appspotmail.com"
 
     return recipient
@@ -215,6 +215,20 @@ def notifyEntrepreneur(message):
 
 
 def confirmUserMail(user):
+    def getCollage():
+        collage = "%s/scripts/img/mincportfolio.png" %(access.server_url) 
+        try:
+            result = None
+            if Resource.all().count()==1:
+                for resource in Resource.all():
+                    result = resource.resource_key.key()
+                collage = "%s/serve/%s" %(access.server_url, result)
+                return collage
+            else:
+                return collage 
+        except:
+            return collage 
+            
     from_email = "admin@meststrikeforce.appspotmail.com"
     from_name  = "MEST Strike Force"
     to_email = user.notify_mail
@@ -226,6 +240,7 @@ def confirmUserMail(user):
     if user.user_profile == "Mentor":
         html = mailContent.confirm_user_mentor
         variables = [{ 'name': 'username', 'content': to_name},
+                {'name': 'collage', 'content': getCollage()},
                 {'name': 'server_url', 'content': access.server_url},
                 {'name': 'signin_url', 'content': confirmation_url},
                 {'name': 'confirmation_url', 'content': confirmation_url}]  
@@ -237,7 +252,7 @@ def confirmUserMail(user):
                     {'name': 'confirmation_url', 'content': confirmation_url}]
 
 
-    reply_to = "incubator@meltwater.org"
+    reply_to = "nnutsukpui@gmail.com"
     tags = "Confirmed User"
     merge = False
     return sendOutboundMail(from_email, from_name, to_email, to_name, subject, html, tags, reply_to, variables, merge)
@@ -259,7 +274,7 @@ def notificationMail(user):
     variables = [{ 'name': 'username', 'content': to_name},
                 {'name': 'userprofile', 'content': user_profile},
                 {'name':'firstname', 'content': user.first_name}]
-    reply_to = "incubator@meltwater.org"
+    reply_to = "nnutsukpui@gmail.com"
     tags = "Confirmed User"
     merge = False
     return sendOutboundMail(from_email, from_name, to_email, to_name, subject, html, tags, reply_to, variables, merge)

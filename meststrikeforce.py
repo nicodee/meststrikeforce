@@ -485,6 +485,7 @@ class AdminPageHandler(RequestHandler):
                             )
             else:
                self.log_user_out()
+               self.redirect("/admin")
 
         elif action == "confirm":
             try:
@@ -708,6 +709,10 @@ class ReplyMessageHandler(RequestHandler):
                     token=token,
                     page="messages/inbox",
                     receiver=message.sender)
+            else:
+                self.redirect("/signout")
+        else:
+            self.redirect("/signout")
 
 class MentorProfileHandler(RequestHandler):
     def getUser(self, user_id):
@@ -716,14 +721,26 @@ class MentorProfileHandler(RequestHandler):
     def get(self, user_id):
         if self.user:
             user = User.get_by_id(int(self.user_id))
-            mentor = self.getUser(user_id)     
-            if user.user_profile == "Entrepreneur" or user.user_profile == "Administrator" and mentor.programs.count()>0:
-                companies = Company.all()           
-                self.render("mentorprofile.html", mentor = mentor, user = user, companies = companies)
-            else:
-                self.redirect("/home")
+            try:
+                mentor = self.getUser(user_id)     
+                if user.user_profile == "Entrepreneur" or user.user_profile == "Administrator" and mentor.programs.count()>0:
+                    companies = Company.all()           
+                    self.render("mentorprofile.html", mentor = mentor, user = user, companies = companies)
+                elif user.user_profile == "Administrator":
+                    self.redirect("/admin")
+                elif user.user_profile == "Entrepreneur":
+                    self.redirect("/search")
+                else:
+                    self.redirect("/signout")
+            except:
+                if user.user_profile == "Administrator":
+                    self.redirect("/admin")
+                elif user.user_profile == "Entrepreneur":
+                    self.redirect("/search")
+                else:
+                    self.redirect("/signout")
         else:
-            self.redirect("/home")
+            self.redirect("/signout")
 
 class ComposeNewMessageHandler(RequestHandler):
     def getUser(self, user_id):
@@ -1034,24 +1051,33 @@ class SubmitHandler(webapp2.RequestHandler):
 
 
 class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
+    def deleteResources(self):
+        results = Resource.all()
+        for resource in results:
+            db.delete(resource)
+        return True
+
     def getTags(self):
         industry     = json.loads(self.request.get("industry"))
         expertise    = json.loads(self.request.get("expertise"))
         return (industry, expertise)
 
     def post(self):
-        try:
-            user_id             = self.request.get("user_id")
-            title               = self.request.get("title")
-            description         = self.request.get("description")
-            industry, expertise = self.getTags()
-            upload_files        = self.get_uploads('file')  # 'file' is file upload field in the form
-            blob_info           = upload_files[0]
-            entity              = Resource.create(user_id, blob_info.key(), title, description, industry, expertise)
-            key                 = entity.resource_key.key()
-            self.response.write("resource uploaded successfully. <a href='/admin'>Click here to go back</a>")
-        except:
-            self.response.write("Something went wrong somewhere and it's your fault.")
+        # try:
+        user_id             = self.request.get("user_id")
+        title               = self.request.get("title")
+        description         = self.request.get("description")
+        # industry, expertise = self.getTags()
+        industry, expertise = ([], [])
+        upload_files        = self.get_uploads('file')  # 'file' is file upload field in the form
+        blob_info           = upload_files[0]
+        result = self.deleteResources()
+        entity              = Resource.create(user_id, blob_info.key(), title, description, industry, expertise)
+        key                 = entity.resource_key.key()
+        # self.response.write("resource uploaded successfully. <a href='/admin'>Click here to go back</a>")
+        self.redirect("/admin/resources")
+        # except:
+        #     self.response.write("Something went wrong somewhere and it's your fault.")
 
 class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
     def get(self, resource):

@@ -286,7 +286,7 @@ width="580"><a
 href="http://mestghana.wpengine.com/incubator/portfolio/"><img
 style="border: 0px solid ; width: 574px; height: 432px;"
 alt="portfolio" label="Image" class="w580"
-src="*|server_url|*/scripts/img/mincportfolio.png"></a></td>
+src="*|collage|*"></a></td>
 </tr>
 <tr style="color: rgb(153, 153, 153);">
 <td class="w580" width="580">
