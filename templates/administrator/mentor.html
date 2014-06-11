@@ -121,13 +121,13 @@
                                             <tr class="pending {{new_mentor.key().id()}}">
                                                 {% set count = count+1 %}
                                                 <td>
-                                                    <a href="{{new_mentor.linkedin_profile}}" target="_blank">{{count}}</a>
+                                                    <a href="/mentor/profile/{{new_mentor.key().id()}}" target="_blank">{{count}}</a>
                                                 </td>
                                                 <td>
-                                                    <a href="{{new_mentor.linkedin_profile}}" target="_blank">{{new_mentor.first_name}}</a>
+                                                    <a href="/mentor/profile/{{new_mentor.key().id()}}" target="_blank">{{new_mentor.first_name}}</a>
                                                 </td>
                                                 <td>
-                                                    <a href="{{new_mentor.linkedin_profile}}" target="_blank">{{new_mentor.last_name}}</a>
+                                                    <a href="/mentor/profile/{{new_mentor.key().id()}}" target="_blank">{{new_mentor.last_name}}</a>
                                                 </td>
                                                 <td>
                                                     {{new_mentor.email}}

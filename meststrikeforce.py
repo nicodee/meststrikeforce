@@ -362,7 +362,7 @@ class MentorPageHandler(RequestHandler):
     def get(self):
         if self.user and self.user_profile == "Mentor":
             user = User.get_by_id(int(self.user_id))
-            if user.confirmation_status == "confirmed":     
+            if user.confirmation_status == "confirmed" and user.programs.count() > 0:     
                 companies = Company.all()           
                 self.render("editmentorprofile.html", mentor = user, companies=companies)
             else:
@@ -716,10 +716,12 @@ class MentorProfileHandler(RequestHandler):
     def get(self, user_id):
         if self.user:
             user = User.get_by_id(int(self.user_id))
-            if user.user_profile == "Entrepreneur" or user.user_profile == "Administrator":
-                mentor = self.getUser(user_id)     
+            mentor = self.getUser(user_id)     
+            if user.user_profile == "Entrepreneur" or user.user_profile == "Administrator" and mentor.programs.count()>0:
                 companies = Company.all()           
                 self.render("mentorprofile.html", mentor = mentor, user = user, companies = companies)
+            else:
+                self.redirect("/home")
         else:
             self.redirect("/home")
 
@@ -1069,9 +1071,9 @@ class SignoutPageHandler(RequestHandler):
             self.log_user_out()
             self.redirect("/home")
 
-class DeleteHandler(RequestHandler):
-    def get(self):
-        self.redirect("/home")
+# class DeleteHandler(RequestHandler):
+    # def get(self):
+        # self.redirect("/home")
         # db.delete(Administrator.all())
         # db.delete(Comment.all())
         # db.delete(Discovery.all())
@@ -1114,7 +1116,7 @@ app = webapp2.WSGIApplication([
                                 ('/messages/([^/]+)?', InboxHandler),
                                 ('/messages/reply/(\d+)', ReplyMessageHandler),
                                 ("/search", SearchPageHandler),
-                                ("/delete", DeleteHandler),
+                                # ("/delete", DeleteHandler),
                                 ('/signupmentor', MentorSignUpPageHandler),
                                 ('/signupentrepreneur', EntrepreneurSignUpPageHandler),
                                 ('/signin/mentor', LogInMentor),

@@ -65,13 +65,7 @@ def getAdminDetails():
     recipient    = {}
 
     recipient['name']  = "Administration" 
-    recipient['email'] = "nnutsukpui@gmail.com"
-    # recipient['alias'] = "<no-reply>@meststrikeforce.appspotmail.com"
-     # <incubator.mgmt@meltwater.org>
-
-
-    # recipient['name']  = "Anirudh Narla" 
-    # recipient['email'] = "anirudh@meltwater.org"
+    recipient['email'] = "incubator@meltwater.org"
     recipient['alias'] = "admin@meststrikeforce.appspotmail.com"
 
     return recipient
