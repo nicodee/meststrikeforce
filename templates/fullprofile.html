@@ -30,7 +30,7 @@
 						<div class="span7" id="profile-brief-text">
 							<div class="row-fluid" style="margin-top:20px;">
 								<label id="profile-name">
-									<h3 id="mentor-profile-name">{{mentor.first_name}} {{mentor.last_name}}</h3>
+									<a href="/mentor/profile/{{mentor.key().id()}}"></a><h3 id="mentor-profile-name">{{mentor.first_name}} {{mentor.last_name}}</h3>
 								</label>
 								<span>
 									<label id="profile-company-position">
@@ -98,31 +98,31 @@
 							{% set count = mentor|hours_committed %}
 							{% if count >= 10 %}
 								<div class="span1" id="img1" style="margin-left: 10px;">
-	    							<img src="../../scripts/assets/img/mentorbadges/Badge10.png" alt="">  						
+	    							<img src="../../../scripts/assets/img/mentorbadges/Badge10.png" alt="">  						
 								</div>	
 							{% endif %}								  						
 
 							{% if count >= 25 %}
 								<div class="span1" id="img2">
-	    							<img src="../../scripts/assets/img/mentorbadges/Badge25.png" alt="">   							
+	    							<img src="../../../scripts/assets/img/mentorbadges/Badge25.png" alt="">   							
 								</div>		
 							{% endif %}								  						
 
 							{% if count >= 50 %}
 								<div class="span1" id="img3">
-	    							<img src="../../scripts/assets/img/mentorbadges/Badge50.png" alt="">   							
+	    							<img src="../../../scripts/assets/img/mentorbadges/Badge50.png" alt="">   							
 								</div>	
 							{% endif %}								  						
 
 							{% if count >= 100 %}
 								<div class="span1" id="img4">
-	    							<img src="../../scripts/assets/img/mentorbadges/Badge100.png" alt="">						
+	    							<img src="../../../scripts/assets/img/mentorbadges/Badge100.png" alt="">						
 								</div>	
 							{% endif %}								  						
 								
 							{% if count >= 250 %}
 								<div class="span1" id="img5">
-	    							<img src="../../scripts/assets/img/mentorbadges/Badge250.png" alt="">   						
+	    							<img src="../../../scripts/assets/img/mentorbadges/Badge250.png" alt="">   						
 								</div>	
 							{% endif %}								  						
 						</div>
@@ -310,8 +310,8 @@
 							</div>
 							<div class="span3 pull-right">
 								{% if comment.commentor.key().id() == user_id %}
-									<img src="scripts/img/delete_comment.png" class="delete" data-commentor-id="{{comment.commentor_id}}">
-									<img src="scripts/img/edit.png" class="edit" data-commentor-id="{{comment.commentor_id}}">
+									<img src="../scripts/img/delete_comment.png" class="delete" data-commentor-id="{{comment.commentor_id}}">
+									<img src="../scripts/img/edit.png" class="edit" data-commentor-id="{{comment.commentor_id}}">
 								{% endif %}
 							</div>
 						</div>

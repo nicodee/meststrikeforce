@@ -401,7 +401,6 @@ class MentorPageHandler(RequestHandler):
                 result = Contribution.add_contribution(contribution)
                 send_mails = mailhandler.sendContributionMails(contribution, user)
                 return self.render('new_contribution.html', mentor = user)
-                # self.response.write(result)
 
 class ResourceHandler(RequestHandler):
     def getResources(self):
@@ -423,6 +422,29 @@ class ResourceHandler(RequestHandler):
 
     def post(self):
         pass
+
+class ResetAdminPasswordPageHandler(RequestHandler):
+    def get(self):
+        if self.user and self.user_profile == "Administrator":
+            self.render("administrator/resetpassword.html")
+        else:
+            self.redirect("/signout")
+
+    def post(self):        
+        action   = self.request.get("action")
+        if self.user and self.user_profile == "Administrator" and action == "changepassword":
+            old_password = self.request.get("oldpassword")
+            new_password = self.request.get("newpassword")
+            authentic_admin = Administrator.log_in_admin('administrator', old_password)
+            user = User.get_by_id(int(self.user_id))
+
+            if authentic_admin and Administrator.change_password(user, old_password, new_password):
+                self.response.write("password change successful!")
+            else:
+                self.render("administrator/resetpassword.html", error=True)
+        else:
+            self.redirect("/signout")
+
 
 class AdminPageHandler(RequestHandler): 
     def getResources(self):
@@ -529,9 +551,6 @@ class AdminPageHandler(RequestHandler):
             try:
                 applicant_id   = self.request.get("user_id")
                 applicant      = User.get_by_id(int(applicant_id))
-                # applicant.confirmation_status = "deleted"
-                # applicant.put()
-                # result         = True
                 result         = populate.delete_user(applicant)
                 if result == True:
                     self.response.write(json.dumps({"status":"success","action":"remove","value":True}))
@@ -566,12 +585,12 @@ class EntrepreneurAdminPageHandler(RequestHandler):
 ##########################################################################
 class CompanyAdminPagehandler(RequestHandler):
     def get(self):
-        if self.user and self.user_profile == "Administrator":            
+        if self.user and self.user_profile == "Administrator":
+            upload_url    = blobstore.create_upload_url('/upload')             
             user      = User.get_by_id(int(self.user_id))
             companies = Company.all()
-            # self.response.write(user, companies)
-            # self.response.write("hello there")
-            self.render("administrator/companies.html", user=user, companies=companies)
+            resources      = Resource.all().order("-created")
+            self.render("administrator/companies.html", user=user, companies=companies, resources=resources, upload=upload_url, user_id=self.user_id)
         else:
             self.redirect("/admin")            
     
@@ -588,8 +607,6 @@ class CompanyAdminPagehandler(RequestHandler):
                 company['ceo_email'] = self.request.get("addCeoEmail")
                 result  = Company.create(company)
                 self.redirect("/admin/companies")
-                # company = json.loads(self.request.get("company"))
-                # self.response.write(company)
 
             elif action == "edit":
                 company['name'] = self.request.get("editCompanyName")
@@ -840,6 +857,26 @@ class ComposeNewMessageHandler(RequestHandler):
                 sessionDetails(session, message)
                 self.redirect("/messages/compose/%d" %(int(recipient_id)))
 
+class SearchAllPageHandler(RequestHandler):
+    """docstring for SearchAllPageHandler"""
+    def getMentors(self,mentors):
+        approved_mentors = []
+        for mentor in mentors:
+            if mentor.user.confirmation_status == "confirmed":
+                approved_mentors.append(mentor.user)
+        return approved_mentors
+
+    def get(self):
+        if self.user:
+            user  = User.get_by_id(int(self.user_id))
+            if user.user_profile == "Mentor":
+                self.redirect('/mentor')
+            else:
+                mentors = self.getMentors(Program.gql("WHERE program_type=:1", "MEST Strike Force"))
+                self.render("/search/search_all.html", user=user, mentors=mentors)
+        else:
+            self.redirect('/home')
+        
 
 class SearchPageHandler(RequestHandler):
     def unique_result(self,array):
@@ -1130,6 +1167,7 @@ app = webapp2.WSGIApplication([
                                 ('/mentor', MentorPageHandler),
                                 ('/mentor/profile/(\d+)', MentorProfileHandler),
                                 ("/admin", AdminPageHandler),
+                                ("/admin/password/reset", ResetAdminPasswordPageHandler),
                                 ("/admin/entrepreneur", EntrepreneurAdminPageHandler),
                                 ("/admin/mentor", MentorAdminPageHandler),
                                 ("/admin/companies", CompanyAdminPagehandler),
@@ -1142,6 +1180,7 @@ app = webapp2.WSGIApplication([
                                 ('/messages/([^/]+)?', InboxHandler),
                                 ('/messages/reply/(\d+)', ReplyMessageHandler),
                                 ("/search", SearchPageHandler),
+                                ("/search/all", SearchAllPageHandler),
                                 # ("/delete", DeleteHandler),
                                 ('/signupmentor', MentorSignUpPageHandler),
                                 ('/signupentrepreneur', EntrepreneurSignUpPageHandler),

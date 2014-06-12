@@ -322,6 +322,10 @@ class Resource(db.Model):
 
     @classmethod
     def create(cls,user_id,resource_key, title, description, industry, expertise):
+        print "===================================================="
+        print user_id
+        print type(user_id)
+        print "===================================================="
         user = User.get_by_id(int(user_id))
         new_resource = Resource(
                         user         = user,
@@ -841,12 +845,11 @@ class Administrator(db.Model):
     @classmethod
     def change_password(cls, user, old_password, new_password):
         admin = cls.gql("WHERE user=:1", user).get()
-        count  = result.count()
 
         if admin:
             password_hash = cls.make_pw_hash(old_password, admin.salt)
-            if password_hash == admin.password:
-                admin.password = new_password
+            if password_hash == admin.password_hash:
+                admin.password_hash = cls.make_pw_hash(new_password, admin.salt)
                 admin.put()
                 return True      
         else:

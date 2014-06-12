@@ -421,7 +421,7 @@ margin-bottom: 20px;
 #topic-nav a,
 #sector-nav a,
 #skills-nav a {
-	font-size: 20px;
+	font-size: 17px;
 }
 
 .accordion-heading a{
@@ -429,7 +429,7 @@ margin-bottom: 20px;
 }
 
 .accordion-inner.item p{
-	font-size: 18px;
+	font-size: 13px;
 }
 
 #tab-content label {

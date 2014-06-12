@@ -43,6 +43,9 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
+                                        <a tabindex="-1" href="/admin/password/reset">Reset password</a>
+                                    </li>
+                                    <li>
                                         <a tabindex="-1" href="/signout">Logout</a>
                                     </li>
                                 </ul>
@@ -222,6 +225,94 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="row-fluid">
+                        <div class="span12">
+                            <!-- block -->
+                            <div class="block">
+                                <div class="navbar navbar-inner block-header">
+                                    <div class="muted pull-left"></div>
+                                    <div class="pull-right"><span class="badge badge-info">{{resources.count()}}</span>
+                                        
+                                    <a href="#upload-resource" role="button" class="" id="new-resource" data-toggle="modal">
+                                        <span class="badge badge-warning">Upload new collage</span>
+                                    </a>
+                                    <a href="/admin/resources" class="" id="go-to-resources" >
+                                        <span class="badge badge-warning">View</span>
+                                    </a>
+                                    
+                                     
+                                    <!-- Modal -->
+                                    <div id="upload-resource" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h3 id="myModalLabel">Upload new collage</h3>
+                                      </div>
+                                      <form action="{{upload}}" method="POST" enctype="multipart/form-data" id="uploadresource">
+                                          <div class="modal-body">
+                                                <input type="text" style="display:none" name="industry" id="tags-resource-industry">
+                                                <input type="text" style="display:none" name="expertise" id="tags-resource-expertise">
+                                                <div class="row resource">
+                                                    <input class="newJobmodal" type="text"  name="title" placeholder="Title"><br>
+                                                </div>
+                                                <div class="row resource">
+                                                    <textarea class="newJobmodal" rows="4" cols="50" name="description"
+                                                    placeholder="Brief description">This is a collage of the logos of all the companies in the MEST Incubator program.</textarea><br>
+                                                </div>
+                                                <div class="row resource">
+                                                    <input class="newJobmodal" type="file" name="file">
+                                                </div>
+                                                <div class="row resource">
+                                                    <input type="text" name="user_id" value="{{user_id}}" style="display:none">
+                                                </div>         
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                                            <button class="btn btn-primary"  type="submit">Save changes</button>
+                                          </div>
+                                      </form>
+                                    </div>
+
+                                    </div>
+                                </div>
+                                <div class="block-content collapse in">
+                                    {% if resources.count() > 0 %}
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Title</th>
+                                                <th>Uploaded by</th>
+                                                <th>Date/Time</th>
+                                                <th>Content</th>
+                                            </tr>
+                                        </thead>
+                                         <tbody>                                         
+                                            {% set count = 0 %}
+                                            {% for resource in resources %}                                          
+                                            <tr>
+                                                {% set count = count+1 %}
+                                                <td class="small-font">{{count}}</td>
+                                                <td class="small-font"><a href="/serve/{{resource.resource_key.key()}}" target="_blank">{{resource.title}}</a></td>
+                                                <td class="small-font">{{resource.user.first_name}} {{resource.user.last_name}}</td>
+                                                <td class="small-font">{{resource.created.strftime("%d %B %Y %H:%M")}}</td>
+                                                <td class="small-font" style=" width: 200px; ">
+                                                    <div class="" >
+                                                        <img width="20%" src="http://www.meststrikeforce.appspot.com/serve/{{resource.resource_key.key()}}"></img>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% else%}
+                                        <h5 class="muted" style="text-align:center">No uploaded resources at the moment</h5>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- /block -->
+                        </div>
+                    </div>
 
                 </div>      
           </div>
