@@ -7,6 +7,8 @@ confirm_user_mentor = confirm_mentor_template.template
 
 signup_template = confirm_mentor_template.signup_template
 
+signup_template_entrepreneur = confirm_mentor_template.signup_template_entrepreneur
+
 notification_received = confirm_mentor_template.received_notif
 
 request = confirm_mentor_template.request_template

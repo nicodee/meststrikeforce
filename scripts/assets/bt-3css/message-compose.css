@@ -357,6 +357,7 @@ a.cke_button_disabled:active {
 	color: red;
 }
 
+#mark_all_checks .modal-body,
 #select_type_of_message .modal-body,
 #message_content_be_blank .modal-body {
 	text-align: center;
@@ -366,19 +367,26 @@ a.cke_button_disabled:active {
 	padding-top: 0px;
 }
 
+#mark_all_checks .modal-content,
 #select_type_of_message .modal-content,
 #message_content_be_blank .modal-content {
 	background-color: #fdf7f7;
 }
 
+#mark_all_checks .modal-dialog ,
 #select_type_of_message .modal-dialog ,
 #message_content_be_blank .modal-dialog  {
 	padding-top: 15%;
 }
 
+#mark_all_checks .modal-header,
 #select_type_of_message .modal-header,
 #message_content_be_blank .modal-header {
 	border-bottom: none;
+}
+
+.mark_check_warning {
+	color: #b94a48;
 }
 
 #cke_message {

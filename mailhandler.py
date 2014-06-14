@@ -14,7 +14,7 @@ def outBoundMail(message):
     from_name  = message.get("sender_name")
     to_email   = message.get("receiver_email")
     to_name    = message.get("receiver_name")
-    subject    = message.get("subject")
+    subject    = "[MSF] " + message.get("subject")
     html       = message.get("content")
     reply_to   = message.get("reply_to")
     tags       = "Outbound Mail"
@@ -64,7 +64,7 @@ def sendOutboundMail(from_email, from_name, to_email, to_name, subject, html, ta
 def getAdminDetails():
     recipient    = {}
 
-    recipient['name']  = "Administration" 
+    recipient['name']  = "Administrator" 
     recipient['email'] = "incubator@meltwater.org"
     recipient['alias'] = "admin@meststrikeforce.appspotmail.com"
 
@@ -84,7 +84,7 @@ def requestMail(user):
     to_email         = recipient.get("email")
     to_name          = recipient.get("name")
 
-    subject          = "Request For Confirmation"
+    subject          = "[MSF] Request For Confirmation"
     html             = mailContent.request
     reply_to         = recipient.get("alias")
     tags             = "Request For Confirmation"
@@ -121,7 +121,7 @@ def requestMentorMail(user):
     to_email         = recipient.get("email")
     to_name          = recipient.get("name")
 
-    subject          = "New MEST Strike Force member!"
+    subject          = "[MSF] New MEST Strike Force member!"
     html             = mailContent.request_mentor
     reply_to         = recipient.get("alias")
     tags             = "Request For Mentor Confirmation"
@@ -199,7 +199,7 @@ def notifyEntrepreneur(message):
     from_name  = message.get("sender_name")
     to_email   = user.notify_mail
     to_name    = message.get("sender_name")
-    subject    = "You just received a mail on the MEST Strike Force."
+    subject    = "[MSF] New message on MEST Strike Force!"
     html       = mailContent.notification_received
 
     reply_to   = "admin@meststrikeforce.appspotmail.com"
@@ -233,7 +233,7 @@ def confirmUserMail(user):
     from_name  = "MEST Strike Force"
     to_email = user.notify_mail
     to_name  = user.first_name + " " + user.last_name
-    subject = "Welcome to the MEST Strike Force!"
+    subject = "[MSF] Welcome to the MEST Strike Force!"
     
     confirmation_url = access.signin_url
     
@@ -266,11 +266,12 @@ def notificationMail(user):
     user_profile = ""
     if user.user_profile == "Mentor":
         user_profile = "a member of"
-        subject = "Thank you for joining the MEST Strike Force!"          
+        subject = "[MSF] Thank you for joining the MEST Strike Force!"          
+        html = mailContent.signup_template
     else:
         user_profile = "an Entrepreneur on"        
-        subject = "We've Received Your Entrepreneur Application"          
-    html = mailContent.signup_template
+        subject = "[MSF] We've Received Your Entrepreneur Application"
+        html = mailContent.signup_template_entrepreneur          
     variables = [{ 'name': 'username', 'content': to_name},
                 {'name': 'userprofile', 'content': user_profile},
                 {'name':'firstname', 'content': user.first_name}]
@@ -291,7 +292,7 @@ def sendContributionMailAdmin(contribution, mentor):
     to_email    = "admin@meststrikeforce.appspotmail.com"
     to_name     = admin.first_name + " " + admin.last_name    
     mentor_name = mentor.first_name + " " + mentor.last_name
-    subject     = "%s has submitted hours for supporting %s" %(mentor_name, contribution.get("company","")) 
+    subject     = "[MSF] %s has submitted hours for supporting %s" %(mentor_name, contribution.get("company","")) 
     html        = mailContent.newhour
     twitter     = ""
     if mentor.programs[0].twitter_handle != None:
@@ -338,8 +339,8 @@ def sendBadgeMail(from_email, from_name, contribution, mentor, admin, reply_to, 
     program = Program.all().filter("user = ", mentor).get()
 
     to_name_mentor = mentor.first_name + " " + mentor.last_name
-    subject = "%s just earned a new badge!" %(to_name_mentor)
-    mentor_subject ="You've earned a new badge!"
+    subject = "[MSF] %s just earned a new badge!" %(to_name_mentor)
+    mentor_subject ="[MSF] You've earned a new badge!"
     tags = "New badge earned"
 
     if contributed_hours >= 250 and program.grand_master == None:

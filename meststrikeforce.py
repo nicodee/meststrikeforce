@@ -439,7 +439,7 @@ class ResetAdminPasswordPageHandler(RequestHandler):
             user = User.get_by_id(int(self.user_id))
 
             if authentic_admin and Administrator.change_password(user, old_password, new_password):
-                self.response.write("password change successful!")
+                self.render("administrator/resetpassword.html", success=True)
             else:
                 self.render("administrator/resetpassword.html", error=True)
         else:
