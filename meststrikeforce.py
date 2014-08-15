@@ -57,15 +57,15 @@ def has_commented(mentor, arg):
     return customfilters.has_commented(mentor, arg)
 #################################custom filters ends#############################################
 
-jinja_env.filters['true'] = true
-jinja_env.filters['is_topic'] = is_topic
-jinja_env.filters['is_sector'] = is_sector
-jinja_env.filters['inbox_type'] = inbox_type
-jinja_env.filters['hours_committed'] = hours_committed
-jinja_env.filters['hours_left'] = hours_left
+jinja_env.filters['true']                = true
+jinja_env.filters['is_topic']            = is_topic
+jinja_env.filters['is_sector']           = is_sector
+jinja_env.filters['inbox_type']          = inbox_type
+jinja_env.filters['hours_committed']     = hours_committed
+jinja_env.filters['hours_left']          = hours_left
 jinja_env.filters['get_committed_image'] = get_committed_image
-jinja_env.filters['get_rating'] = get_rating
-jinja_env.filters['has_commented'] = has_commented
+jinja_env.filters['get_rating']          = get_rating
+jinja_env.filters['has_commented']       = has_commented
 
 API_Key                   = access.API_Key
 Secret_Key                = access.Secret_Key
@@ -132,9 +132,9 @@ class RequestHandler(webapp.RequestHandler):
         # print uid
         try:
             if uid: #user is logged in with a domain account
-                self.user    = User.get_by_id(int(uid))
-                self.user_id = uid
-                self.user_profile = self.user.user_profile
+                self.user                = User.get_by_id(int(uid))
+                self.user_id             = uid
+                self.user_profile        = self.user.user_profile
                 self.confirmation_status = self.user.confirmation_status
             else: # user is not logged in
                 self.user = None
@@ -161,7 +161,7 @@ class ProgramsHandler(RequestHandler):
        
 class HomePageHandler(RequestHandler):
     def get(self):
-        # self.render('index.html')
+        self.render('index.html')
         # self.redirect("http://www.meltwater.org/mentorplatform")
         self.redirect("http://www.meltwater.org/strikeforce")
 
@@ -280,22 +280,22 @@ class EntrepreneurSignUpPageHandler(RequestHandler):
             result             = urllib.urlopen('https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&code=%s&redirect_uri=%s&client_id=%s&client_secret=%s' %(authorization_code,Redirect_uri_entrepreneur,API_Key,Secret_Key))
 
             if result.code == 200 and state == State:
-                token       = json.loads(result.read())  
-                userprofile = urllib.urlopen('https://api.linkedin.com/v1/people/~:(id,first-name,last-name,public-profile-url,location:(name),summary,industry,positions,recommendations-received,skills:(id,skill),educations:(id,school-name,field-of-study,start-date,end-date,degree,activities,notes),twitter-accounts,picture-url,email-address)?format=json&oauth2_access_token=%s' %(token['access_token']))
-                userdata    = json.loads(userprofile.read())
-                profilepic           = urllib.urlopen('https://api.linkedin.com/v1/people/~/picture-urls::(original)?format=json&oauth2_access_token=%s' %(token['access_token'])) 
-                bigPic               = json.loads(profilepic.read())
-                userdata["big_pic"]  = bigPic['values'][0]
-                user  = populate.create_user(userdata, 'Entrepreneur')
+                token               = json.loads(result.read())  
+                userprofile         = urllib.urlopen('https://api.linkedin.com/v1/people/~:(id,first-name,last-name,public-profile-url,location:(name),summary,industry,positions,recommendations-received,skills:(id,skill),educations:(id,school-name,field-of-study,start-date,end-date,degree,activities,notes),twitter-accounts,picture-url,email-address)?format=json&oauth2_access_token=%s' %(token['access_token']))
+                userdata            = json.loads(userprofile.read())
+                profilepic          = urllib.urlopen('https://api.linkedin.com/v1/people/~/picture-urls::(original)?format=json&oauth2_access_token=%s' %(token['access_token'])) 
+                bigPic              = json.loads(profilepic.read())
+                userdata["big_pic"] = bigPic['values'][0]
+                user                = populate.create_user(userdata, 'Entrepreneur')
                 if user=='User already exists':
                     self.log_user_out()
                     self.render("/duplicate.html")
                 else:
-                    user_id = user.key().id()
+                    user_id          = user.key().id()
                     self.log_user_in(str(user_id))
-                    mail_status = mailhandler.requestMail(user)
-                    notifyuser = mailhandler.notificationMail(user)
-                    confirmation_msg  = "Your account has been successfully created and is pending approval"
+                    mail_status      = mailhandler.requestMail(user)
+                    notifyuser       = mailhandler.notificationMail(user)
+                    confirmation_msg = "Your account has been successfully created and is pending approval"
                     self.log_user_out()
                     self.render('/success_entrepreneur.html')
             ########################################### need to send alert to admin for confirmation of new user ####################################################
@@ -383,23 +383,23 @@ class MentorPageHandler(RequestHandler):
             user = User.get_by_id(int(self.user_id))
             action   = self.request.get("action")
             if action == 'edit_profile':
-                value = self.request.get('value')
+                value    = self.request.get('value')
                 criteria = self.request.get('criteria')
-                perform = self.request.get('action_to_perform')
+                perform  = self.request.get('action_to_perform')
                 category = self.request.get('type')
-                result = populate.edit_profile(value, criteria, perform, user, category)
+                result   = populate.edit_profile(value, criteria, perform, user, category)
                 self.response.write("%s, %s, %s, %s, %s" %(value, criteria, perform, category, result))
 
             elif action == 'topics':
                 return self.render('refreshtopic.html', mentor = user)
 
             elif action == "add_contribution":
-                contribution = json.loads(self.request.get('contribution'))
-                contribution['user'] = user
+                contribution              = json.loads(self.request.get('contribution'))
+                contribution['user']      = user
                 contribution['old_total'] = totalContributions(user)
                 contribution['new_total'] = totalContributions(user) + int(contribution.get("hours"))
-                result = Contribution.add_contribution(contribution)
-                send_mails = mailhandler.sendContributionMails(contribution, user)
+                result                    = Contribution.add_contribution(contribution)
+                send_mails                = mailhandler.sendContributionMails(contribution, user)
                 return self.render('new_contribution.html', mentor = user)
 
 class ResourceHandler(RequestHandler):
@@ -433,10 +433,10 @@ class ResetAdminPasswordPageHandler(RequestHandler):
     def post(self):        
         action   = self.request.get("action")
         if self.user and self.user_profile == "Administrator" and action == "changepassword":
-            old_password = self.request.get("oldpassword")
-            new_password = self.request.get("newpassword")
+            old_password    = self.request.get("oldpassword")
+            new_password    = self.request.get("newpassword")
             authentic_admin = Administrator.log_in_admin('administrator', old_password)
-            user = User.get_by_id(int(self.user_id))
+            user            = User.get_by_id(int(self.user_id))
 
             if authentic_admin and Administrator.change_password(user, old_password, new_password):
                 self.render("administrator/resetpassword.html", success=True)
@@ -461,7 +461,7 @@ class AdminPageHandler(RequestHandler):
             new_jobs      = Jobs.all()
             admin         = User.get_by_id(int(self.user_id))
             admin_name    = admin.first_name + " " + admin.last_name
-            resources      = self.getResources()
+            resources     = self.getResources()
             self.render("administrator/dashboard.html",
                         admin=admin_name, 
                         user_id=self.user_id, 
@@ -478,14 +478,14 @@ class AdminPageHandler(RequestHandler):
             populate.create_admin()
 
     def post(self):        
-        action   = self.request.get("action")
-        upload_url    = blobstore.create_upload_url('/upload')          
+        action     = self.request.get("action")
+        upload_url = blobstore.create_upload_url('/upload')          
         if action == "signin":
-            username    = self.request.get("username")
-            password = self.request.get("password")
+            username        = self.request.get("username")
+            password        = self.request.get("password")
             authentic_admin = Administrator.log_in_admin(username, password)
             if authentic_admin:
-                user_id =  Administrator.all().filter("username =", username).get().user.key().id()
+                user_id       =  Administrator.all().filter("username =", username).get().user.key().id()
                 entrepreneurs = User.all().filter("user_profile =","Entrepreneur").filter("confirmation_status !=", "confirmed").filter("confirmation_status !=", "declined").filter("confirmation_status !=", "deleted")
                 mentors       = User.all().filter("user_profile =","Mentor").filter("confirmation_status !=", "confirmed").filter("confirmation_status !=", "declined").filter("confirmation_status !=", "deleted")
                 allmentors    = User.all().filter("user_profile =","Mentor").filter("confirmation_status !=", "confirmed").filter("confirmation_status !=", "declined").filter("confirmation_status !=", "deleted")
@@ -494,16 +494,16 @@ class AdminPageHandler(RequestHandler):
                 self.log_user_in(str(user_id))
                 admin         = User.get_by_id(int(user_id))
                 admin_name    = admin.first_name + " " + admin.last_name
-                resources      = self.getResources()
+                resources     = self.getResources()
                 self.render("administrator/dashboard.html",
-                            admin=admin_name, 
-                            entrepreneurs=entrepreneurs, 
-                            allmentors=allmentors, 
-                            mentors=mentors, 
-                            applicants=applicants,  
-                            jobs=new_jobs, 
-                            upload=upload_url,
-                            resources=resources
+                            admin         =admin_name, 
+                            entrepreneurs =entrepreneurs, 
+                            allmentors    =allmentors, 
+                            mentors       =mentors, 
+                            applicants    =applicants,  
+                            jobs          =new_jobs, 
+                            upload        =upload_url,
+                            resources     =resources
                             )
             else:
                self.log_user_out()

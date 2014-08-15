@@ -229,7 +229,7 @@ bgcolor="#ffffff" width="640">
 <div style="text-align: center;" align="center"> <img
 alt="header"
 style="border: 0px solid ; display: inline; width: 640px; height: 206px;"
-class="w640" src="http://blog.meltwater.org/wp-content/uploads/2013/12/win_header.png" label="Header Image"
+class="w640" src="http://www.meststrikeforce.appspot.com/scripts/img/win_header.png" label="Header Image"
 id="customHeaderImage" align="top"> </div>
 </td>
 </tr>
@@ -751,7 +751,7 @@ bgcolor="#ffffff" width="640">
 <div style="text-align: center;" align="center"> <img
 alt="header"
 style="border: 0px solid ; display: inline; width: 640px; height: 206px;"
-class="w640" src="http://blog.meltwater.org/wp-content/uploads/2013/12/win_header.png" label="Header Image"
+class="w640" src="http://www.meststrikeforce.appspot.com/scripts/img/win_header.png" label="Header Image"
 id="customHeaderImage" align="top"> </div>
 </td>
 </tr>
@@ -1125,7 +1125,7 @@ bgcolor="#ffffff" width="640">
 <div style="text-align: center;" align="center"> <img
 alt="header"
 style="border: 0px solid ; display: inline; width: 640px; height: 206px;"
-class="w640" src="http://blog.meltwater.org/wp-content/uploads/2013/12/win_header.png" label="Header Image"
+class="w640" src="http://www.meststrikeforce.appspot.com/scripts/img/win_header.png" label="Header Image"
 id="customHeaderImage" align="top"> </div>
 </td>
 </tr>
@@ -1515,7 +1515,7 @@ bgcolor="#ffffff" width="640">
 <div style="text-align: center;" align="center"> <img
 alt="header"
 style="border: 0px solid ; display: inline; width: 640px; height: 206px;"
-class="w640" src="http://blog.meltwater.org/wp-content/uploads/2013/12/win_header.png" label="Header Image"
+class="w640" src="http://www.meststrikeforce.appspot.com/scripts/img/win_header.png" label="Header Image"
 id="customHeaderImage" align="top"> </div>
 </td>
 </tr>
@@ -1886,7 +1886,7 @@ bgcolor="#ffffff" width="640">
 <div style="text-align: center;" align="center"> <img
 alt="header"
 style="border: 0px solid ; display: inline; width: 640px; height: 206px;"
-class="w640" src="http://blog.meltwater.org/wp-content/uploads/2013/12/win_header.png" label="Header Image"
+class="w640" src="http://www.meststrikeforce.appspot.com/scripts/img/win_header.png" label="Header Image"
 id="customHeaderImage" align="top"> </div>
 </td>
 </tr>
@@ -2245,7 +2245,7 @@ bgcolor="#ffffff" width="640">
 <div style="text-align: center;" align="center"> <img
 alt="header"
 style="border: 0px solid ; display: inline; width: 640px; height: 206px;"
-class="w640" src="http://blog.meltwater.org/wp-content/uploads/2013/12/win_header.png" label="Header Image"
+class="w640" src="http://www.meststrikeforce.appspot.com/scripts/img/win_header.png" label="Header Image"
 id="customHeaderImage" align="top"> </div>
 </td>
 </tr>
@@ -2615,7 +2615,7 @@ bgcolor="#ffffff" width="640">
 <div style="text-align: center;" align="center"> <img
 alt="header"
 style="border: 0px solid ; display: inline; width: 640px; height: 206px;"
-class="w640" src="http://blog.meltwater.org/wp-content/uploads/2013/12/win_header.png" label="Header Image"
+class="w640" src="http://www.meststrikeforce.appspot.com/scripts/img/win_header.png" label="Header Image"
 id="customHeaderImage" align="top"> </div>
 </td>
 </tr>
@@ -2983,7 +2983,7 @@ bgcolor="#ffffff" width="640">
 <div style="text-align: center;" align="center"> <img
 alt="header"
 style="border: 0px solid ; display: inline; width: 640px; height: 206px;"
-class="w640" src="http://blog.meltwater.org/wp-content/uploads/2013/12/win_header.png" label="Header Image"
+class="w640" src="http://www.meststrikeforce.appspot.com/scripts/img/win_header.png" label="Header Image"
 id="customHeaderImage" align="top"> </div>
 </td>
 </tr>
@@ -3345,7 +3345,7 @@ bgcolor="#ffffff" width="640">
 <div style="text-align: center;" align="center"> <img
 alt="header"
 style="border: 0px solid ; display: inline; width: 640px; height: 206px;"
-class="w640" src="http://blog.meltwater.org/wp-content/uploads/2013/12/win_header.png" label="Header Image"
+class="w640" src="http://www.meststrikeforce.appspot.com/scripts/img/win_header.png" label="Header Image"
 id="customHeaderImage" align="top"> </div>
 </td>
 </tr>
@@ -3735,7 +3735,7 @@ bgcolor="#ffffff" width="640">
 <div style="text-align: center;" align="center"> <img
 alt="header"
 style="border: 0px solid ; display: inline; width: 640px; height: 206px;"
-class="w640" src="http://blog.meltwater.org/wp-content/uploads/2013/12/win_header.png" label="Header Image"
+class="w640" src="http://www.meststrikeforce.appspot.com/scripts/img/win_header.png" label="Header Image"
 id="customHeaderImage" align="top"> </div>
 </td>
 </tr>
